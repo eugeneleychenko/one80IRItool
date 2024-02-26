@@ -169,6 +169,7 @@ function Ad() {
   };
 
   const staticHTML = `
+  <!DOCTYPE html>
   <html>
   <head>
   <style>
