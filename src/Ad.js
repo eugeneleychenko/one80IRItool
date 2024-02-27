@@ -289,7 +289,8 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
     const zip = new JSZip();
     zip.file(
       "index.html",
-      `<html>
+      `<!DOCTYPE html>
+      <html>
 <head>
   <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
   <script type="text/javascript">
