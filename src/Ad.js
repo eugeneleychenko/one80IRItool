@@ -463,6 +463,8 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
             fullWidth
             margin="normal"
           >
+            <MenuItem value="6px">6px</MenuItem>
+            <MenuItem value="7px">7px</MenuItem>
             <MenuItem value="8px">8px</MenuItem>
             <MenuItem value="10px">10px</MenuItem>
             <MenuItem value="12px">12px</MenuItem>
