@@ -60,7 +60,7 @@ function Ad() {
   Ad.modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: ["Helvetica Neue"] }],
-      [{ size: ["8px", "10px", "12px", "14px", "18px", "24px"] }],
+      [{ size: ["6px", "7px", "8px", "10px", "12px", "14px", "18px", "24px"] }],
       ["bold", "blockquote"],
       [
         { list: "ordered" },
