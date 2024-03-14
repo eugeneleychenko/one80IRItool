@@ -45,6 +45,27 @@ function Ad() {
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
 
+  const FullPrescribingInfoLink = ({ top, left }) => (
+    <a
+      href="https://slynd.com/pi"
+      style={{
+        textDecoration: "underline",
+        cursor: "pointer",
+        color: "blue",
+        position: "absolute",
+        top: `${top}px`,
+        left: `${left}px`,
+        zIndex: 10001,
+        fontSize: fontSize, // Use the same font size as the iri
+        fontFamily: "Helvetica, Arial, sans-serif", // Use the same font family as the iri
+      }}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Full Prescribing Information
+    </a>
+  );
+
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -60,7 +81,7 @@ function Ad() {
   Ad.modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: ["Helvetica Neue"] }],
-      [{ size: ["6px", "7px", "8px", "10px", "12px", "14px", "18px", "24px"] }],
+      [{ size: ["8px", "10px", "12px", "14px", "18px", "24px"] }],
       ["bold", "blockquote"],
       [
         { list: "ordered" },
@@ -289,9 +310,9 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
     const zip = new JSZip();
     zip.file(
       "index.html",
-      `<!DOCTYPE html>
+      `<!DOCTYPE html>  
       <html>
-<head>
+  <head>
   <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
   <script type="text/javascript">
     var clickTag = "${clickTag}";
@@ -302,18 +323,25 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
       margin-block-end: 0em;
     }
   </style>
-  
-                
-</head>
-<body>
-  <div style="position: absolute; width: ${adSize.width}px; height: ${adSize.height}px;">
+  </head>
+  <body>  
+  <div style="position: absolute; width: ${adSize.width}px; height: ${
+        adSize.height
+      }px;">
+    <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+        iriArea.y - 5
+      }px; left: ${iriArea.x}px; z-index: 10001">
+      <a href="https://slynd.com/pi" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
+    </div>
     <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
-    <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif;  font-size: ${fontSize}; position: absolute; top: ${iriArea.y}px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${iriArea.width}px; overflow: hidden; z-index: 10000">
+    <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+        iriArea.y + 10 // Adjusted this line to account for the link's height and margin
+      }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
+        iriArea.width
+      }px; overflow: hidden; z-index: 10000">
       <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${iriText}</div>
     </div>
     <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
-
-  
   </div>
   <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -348,8 +376,8 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
     });
   });
   </script>
-</body>
-</html>`
+  </body>
+  </html>`
     );
     zip.file("bg.png", creative.src.split(",")[1], { base64: true });
     zip.generateAsync({ type: "blob" }).then(function (content) {
@@ -373,7 +401,6 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
                 height={adSize.height}
                 style={{
                   display: "block",
-
                   marginRight: "20px",
                 }}
               />
@@ -387,10 +414,16 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
               )}
             </>
           )}
+          {(isSelecting || (iriArea.width > 0 && iriArea.height > 0)) && (
+            <FullPrescribingInfoLink
+              top={iriArea.y - 5} // Adjust this value as needed
+              left={iriArea.x}
+            />
+          )}
           <IriArea
             style={{
               position: "relative",
-              top: iriArea.y - creative?.height,
+              top: iriArea.y - creative?.height + 20,
               left: iriArea.x,
               width: iriArea.width,
               height: iriArea.height,
@@ -463,8 +496,6 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
             fullWidth
             margin="normal"
           >
-            <MenuItem value="6px">6px</MenuItem>
-            <MenuItem value="7px">7px</MenuItem>
             <MenuItem value="8px">8px</MenuItem>
             <MenuItem value="10px">10px</MenuItem>
             <MenuItem value="12px">12px</MenuItem>
