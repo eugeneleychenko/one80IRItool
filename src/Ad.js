@@ -81,7 +81,7 @@ function Ad() {
   Ad.modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: ["Helvetica Neue"] }],
-      [{ size: ["8px", "10px", "12px", "14px", "18px", "24px"] }],
+      [{ size: ["6px", "7px", "8px", "10px", "12px", "14px", "18px", "24px"] }],
       ["bold", "blockquote"],
       [
         { list: "ordered" },
@@ -496,6 +496,8 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
             fullWidth
             margin="normal"
           >
+            <MenuItem value="6px">6px</MenuItem>
+            <MenuItem value="7px">7px</MenuItem>  
             <MenuItem value="8px">8px</MenuItem>
             <MenuItem value="10px">10px</MenuItem>
             <MenuItem value="12px">12px</MenuItem>
