@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, TextField, Typography, Box, MenuItem } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  MenuItem,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/system";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
@@ -37,6 +47,9 @@ function Ad() {
   const [iriArea, setIriArea] = useState({ x: 0, y: 0, height: 0, width: 0 });
   const [iriText, setIriText] = useState("");
   const [clickTag, setClickTag] = useState("http://www.slynd.com");
+  const [fullPrescribingInfoLink, setFullPrescribingInfoLink] = useState(
+    "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
+  ); // Add this line
   const [isSelecting, setIsSelecting] = useState(false);
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
   const [adSize, setAdSize] = useState({ width: 300, height: 250 }); // default ad size
@@ -47,7 +60,7 @@ function Ad() {
 
   const FullPrescribingInfoLink = ({ top, left }) => (
     <a
-      href="https://slynd.com/pi"
+      href={fullPrescribingInfoLink}
       style={{
         textDecoration: "underline",
         cursor: "pointer",
@@ -99,6 +112,7 @@ function Ad() {
   useEffect(() => {
     console.log(iriText);
   }, [iriText]);
+
   useEffect(() => {
     // This function will be called when the Escape key is pressed
     const handleKeyDown = (event) => {
@@ -129,6 +143,10 @@ function Ad() {
 
   const handleCreativeUpload = (event) => {
     const file = event.target.files[0];
+    if (!file) {
+      console.log("No file selected.");
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (e) => {
       setCreative({
@@ -137,13 +155,16 @@ function Ad() {
         height: adSize.height,
       });
     };
+    reader.onerror = (e) => {
+      console.error("Error reading file: ", e.target.error);
+    };
     reader.readAsDataURL(file);
   };
 
   const handleMouseDown = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left; // x position within the element.
-    const y = event.clientY - rect.top; // y position within the element.
+    const y = event.clientY - rect.top; // y position within the elesament.
     setStartPoint({ x, y });
     setIsSelecting(true);
     window.addEventListener("mouseup", handleMouseUp);
@@ -177,7 +198,8 @@ function Ad() {
   };
 
   const handleIriTextChange = (content, delta, source, editor) => {
-    setIriText(editor.getHTML()); // This will get the HTML content from the editor
+    setIriText(editor.getHTML());
+    console.log("Fired handleiritextchange"); // This will get the HTML content from the editor
   };
 
   const handleIriTextUpload = (event) => {
@@ -298,7 +320,7 @@ These are not all the possible side effects of SLYND.<br><br>
 
 This is not all of the important information about SLYND. <br><br>
 
-Click on the ad to access the full <strong>Prescribing Information.</strong> 
+<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full  <strong>Prescribing Information.</strong></a>
 
 
   </p>
@@ -307,6 +329,11 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
   `;
 
   const handleExport = () => {
+    const updatedIriText = iriText.replace(
+      `Click here to access the full <strong>Prescribing Information.</strong>`,
+      `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
+    );
+
     const zip = new JSZip();
     zip.file(
       "index.html",
@@ -331,15 +358,15 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
     <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
         iriArea.y - 5
       }px; left: ${iriArea.x}px; z-index: 10001">
-      <a href="https://slynd.com/pi" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
+      <a href="${fullPrescribingInfoLink}" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
     </div>
     <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
     <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
-        iriArea.y + 10 // Adjusted this line to account for the link's height and margin
+        iriArea.y + 10
       }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
         iriArea.width
       }px; overflow: hidden; z-index: 10000">
-      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${iriText}</div>
+      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedIriText}</div>
     </div>
     <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
   </div>
@@ -461,6 +488,14 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
             fullWidth
             margin="normal"
           />
+          <TextField
+            label="Full Prescribing Information Link"
+            value={fullPrescribingInfoLink}
+            onChange={(e) => setFullPrescribingInfoLink(e.target.value)}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+          />
           <Button variant="contained" component="label" sx={{ margin: 1 }}>
             Upload Creative
             <input type="file" hidden onChange={handleCreativeUpload} />
@@ -477,50 +512,83 @@ Click on the ad to access the full <strong>Prescribing Information.</strong>
           >
             {showOverlay ? "Hit Escape When Done" : "Select IRI Area"}
           </Button>
-          <ReactQuill
-            ref={quillRef}
-            value={staticHTML}
-            onChange={handleIriTextChange}
-            theme="snow"
-            modules={Ad.modules}
-            formats={Ad.formats}
-            style={{ height: "250px", marginBottom: "30px" }}
-          />
-          <TextField
-            select
-            label="Font Size"
-            value={fontSize}
-            onChange={(e) => setFontSize(e.target.value)}
-            helperText="Select the font size"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-          >
-            <MenuItem value="6px">6px</MenuItem>
-            <MenuItem value="7px">7px</MenuItem>  
-            <MenuItem value="8px">8px</MenuItem>
-            <MenuItem value="10px">10px</MenuItem>
-            <MenuItem value="12px">12px</MenuItem>
-            <MenuItem value="14px">14px</MenuItem>
-            <MenuItem value="18px">18px</MenuItem>
-            <MenuItem value="24px">24px</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label="Text Alignment"
-            value={textAlign}
-            onChange={(e) => setTextAlign(e.target.value)}
-            helperText="Select the text alignment"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-          >
-            <MenuItem value="left">Left</MenuItem>
-            <MenuItem value="center">Center</MenuItem>
-            <MenuItem value="right">Right</MenuItem>
-            <MenuItem value="justify">Justify</MenuItem>
-          </TextField>
-
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Customization Options</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  textAlign: "left",
+                  paddingBottom: "5px",
+                }}
+              >
+                IRI Text
+              </Typography>
+              <ReactQuill
+                ref={quillRef}
+                value={staticHTML}
+                onChange={handleIriTextChange}
+                theme="snow"
+                modules={Ad.modules}
+                formats={Ad.formats}
+                style={{ height: "250px", marginBottom: "30px" }}
+              />
+              {/* <TextField
+                label="IRI Text"
+                multiline
+                rows={8} // You can specify the number of rows the textarea will have by default
+                value={staticHTML}
+                onChange={handleIriTextChange}
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  style: {
+                    fontSize: "10px", // Set the font size you desire
+                  },
+                }}
+              /> */}
+              <TextField
+                select
+                label="Font Size"
+                value={fontSize}
+                onChange={(e) => setFontSize(e.target.value)}
+                helperText="Select the font size"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value="6px">6px</MenuItem>
+                <MenuItem value="7px">7px</MenuItem>
+                <MenuItem value="8px">8px</MenuItem>
+                <MenuItem value="10px">10px</MenuItem>
+                <MenuItem value="12px">12px</MenuItem>
+                <MenuItem value="14px">14px</MenuItem>
+                <MenuItem value="18px">18px</MenuItem>
+                <MenuItem value="24px">24px</MenuItem>
+              </TextField>
+              <TextField
+                select
+                label="Text Alignment"
+                value={textAlign}
+                onChange={(e) => setTextAlign(e.target.value)}
+                helperText="Select the text alignment"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value="left">Left</MenuItem>
+                <MenuItem value="center">Center</MenuItem>
+                <MenuItem value="right">Right</MenuItem>
+                <MenuItem value="justify">Justify</MenuItem>
+              </TextField>
+            </AccordionDetails>
+          </Accordion>
           <Button variant="contained" onClick={handleExport} sx={{ margin: 1 }}>
             Export
           </Button>
