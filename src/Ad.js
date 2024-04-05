@@ -351,7 +351,8 @@ This is not all of the important information about SLYND. <br><br>
     }
   </style>
   </head>
-  <body>  
+  <body style="margin: 0; padding: 0">
+
   <div style="position: absolute; width: ${adSize.width}px; height: ${
         adSize.height
       }px;">
