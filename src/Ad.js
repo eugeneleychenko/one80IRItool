@@ -358,7 +358,7 @@ This is not all of the important information about SLYND. <br><br>
     <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
         iriArea.y - 5
       }px; left: ${iriArea.x}px; z-index: 10001">
-      <a href="${fullPrescribingInfoLink}" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
+      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
     </div>
     <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
     <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
