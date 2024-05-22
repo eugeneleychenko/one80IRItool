@@ -69,7 +69,7 @@ function Ad() {
         top: `${top}px`,
         left: `${left}px`,
         zIndex: 10001,
-        fontSize: fontSize, // Use the same font size as the iri
+        fontSize: fontSize, // Use the same font size as the ir i
         fontFamily: "Helvetica, Arial, sans-serif", // Use the same font family as the iri
       }}
       target="_blank"
