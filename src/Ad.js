@@ -213,6 +213,7 @@ function Ad() {
       margin-inline-start: 0px;
       margin-inline-end: 0px;
       font-family: Helvetica;
+
     }
   </style>
   </head>
@@ -313,25 +314,27 @@ This is not all of the important information about SLYND. <br><br>
   * {
     font-family: Helvetica;
   }
-  p, ul {
+  p, ul,  {
     display: block;
     margin-block-start: 0em;
     margin-block-end: 0em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-family: Helvetica;
+    padding-inline-start: 0px;
   }
 </style>
 </head>
 <body>
-  <p><strong>Important Safety Information</strong></p><br>
+
+  <p><strong>Important Safety Information</strong></p>
   <p><strong>Indication:</strong> SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive potential to prevent pregnancy.</p>
-  <br>
+  
   <p><strong>Contraindications:</strong> SLYND is contraindicated in females with renal impairment, adrenal insuﬃciency, a presence or history of cervical cancer or progestin sensitive cancers, liver tumors (benign or malignant) or hepatic impairment, and undiagnosed abnormal uterine bleeding.</p>
-  <br>
+  
   <p><strong>Warnings and Precautions</strong></p>
   <ul>
-    <li><strong>Hyperkalemia:</strong> SLYND has anti-mineralocorticoid activity, including the potential for hyperkalemia in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment cycle in females receiving daily, long-term treatment for chronic conditions or diseases with medications that may increase serum potassium concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia i.e., those females who take a strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop conditions and/or begin medication that put them at an increased risk for hyperkalemia.</li>
+    <li style={{ listStyleType: 'disc' }}><strong>Hyperkalemia:</strong> SLYND has anti-mineralocorticoid activity, including the potential for hyperkalemia in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment cycle in females receiving daily, long-term treatment for chronic conditions or diseases with medications that may increase serum potassium concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia i.e., those females who take a strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop conditions and/or begin medication that put them at an increased risk for hyperkalemia.</li>
     <li><strong>Thromboembolic Disorders:</strong> Epidemiological studies have not indicated an association between progestin-only preparations and an increased risk of myocardial infarction, cerebral thromboembolism, or venous thromboembolism. Consider the increased risk of thromboembolism inherent in the postpartum period and in females with a history of thromboembolism. Discontinue SLYND if a thromboembolic event occurs and consider discontinuing SLYND in case of prolonged immobilization due to surgery or illness.</li>
     <li><strong>Bone Loss:</strong> Treatment with SLYND leads to decreased estradiol serum levels. It is unknown if this may cause a clinically relevant loss of bone mineral density.</li>
     <li><strong>Liver Disease:</strong> Discontinue SLYND if jaundice or acute or chronic disturbances of liver function develop. Do not resume use until markers of liver function return to normal and SLYND causation has been excluded.</li>
@@ -347,8 +350,9 @@ This is not all of the important information about SLYND. <br><br>
   <p><strong>Drug Interactions</strong></p>
   <p>Drugs or herbal products that induce certain enzymes (for example, CYP3A4) may decrease the eﬀectiveness of SLYND or increase breakthrough bleeding. Counsel patients to use a back-up or alternative non-hormonal method of contraception when enzyme inducers are used with SLYND and to continue back-up non-hormonal contraception for 28 days after discontinuing the enzyme inducer. Drugs or products that inhibit CYP3A4 may increase SLYND systemic exposure.</p>
   <br>
-  <p>Please click here to access the full Prescribing Information.</p>
-</body>
+  <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full  <strong>Prescribing Information.</strong></a>
+
+  </body>
 </html>
 `;
   const handleExport = () => {
@@ -398,7 +402,9 @@ This is not all of the important information about SLYND. <br><br>
       }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
         iriArea.width
       }px; overflow: hidden; z-index: 10000">
-      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
+      <div id="scrollingText" style="position: absolute; white-space: pre-wrap; margin-top: ${
+        isIri ? "0" : "-10em"
+      };">${updatedText}</div>
     </div>
     <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
   </div>
@@ -473,8 +479,8 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
           )}
           <IriArea
             style={{
-              position: "relative",
-              top: iriArea.y - creative?.height + 20,
+              position: "absolute",
+              top: iriArea.y + 10, // Adjust the top position based on IRI or ISI
               left: iriArea.x,
               width: iriArea.width,
               height: iriArea.height,
@@ -483,8 +489,14 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
               whiteSpace: "pre-wrap",
               fontFamily: "Helvetica, Arial, sans-serif",
             }}
-            dangerouslySetInnerHTML={{ __html: isIri ? iriText : isiHTML }}
-          />
+          >
+            <div
+              style={{
+                marginTop: isIri ? "0" : "-10em", // Adjust the negative margin as needed
+              }}
+              dangerouslySetInnerHTML={{ __html: isIri ? iriText : isiHTML }}
+            />
+          </IriArea>
         </CreativeContainer>
         <Sidebar>
           <TextField
