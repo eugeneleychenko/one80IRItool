@@ -8,6 +8,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Switch,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/system";
@@ -21,27 +26,23 @@ const Sidebar = styled(Box)({
   width: "300px",
   marginRight: "20px",
 });
-
 const CreativeContainer = styled(Box)({
   flex: 1,
   display: "flex",
   justifyContent: "flex-start",
   alignItems: "center",
 });
-
 const AdContainer = styled(Box)({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between", // This will push the sidebar to the right
 });
-
 const GlobalStyle = createGlobalStyle`
   p {
     margin-block-start: 0em;
     margin-block-end: 0em;
   }
 `;
-
 function Ad() {
   const [creative, setCreative] = useState(null);
   const [iriArea, setIriArea] = useState({ x: 0, y: 0, height: 0, width: 0 });
@@ -57,7 +58,7 @@ function Ad() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
-
+  const [isIri, setIsIri] = useState(true); // New state for IRI/ISI switch
   const FullPrescribingInfoLink = ({ top, left }) => (
     <a
       href={fullPrescribingInfoLink}
@@ -75,10 +76,11 @@ function Ad() {
       target="_blank"
       rel="noopener noreferrer"
     >
-      Full Prescribing Information
+      {isIri
+        ? "IRI Full Prescribing Information"
+        : "ISI Full Prescribing Information"}
     </a>
   );
-
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -87,9 +89,7 @@ function Ad() {
     fontSize: fontSize,
     textAlign: textAlign,
   });
-
   Ad.formats = ["size", "bold", "list", "bullet", "indent"];
-
   // Include any additional modules for toolbar functionality
   Ad.modules = {
     toolbar: [
@@ -106,13 +106,10 @@ function Ad() {
       ["clean"],
     ],
   };
-
   const quillRef = React.useRef(null);
-
   useEffect(() => {
     console.log(iriText);
   }, [iriText]);
-
   useEffect(() => {
     // This function will be called when the Escape key is pressed
     const handleKeyDown = (event) => {
@@ -121,16 +118,13 @@ function Ad() {
         setShowOverlay(false);
       }
     };
-
     // Add the event listener when the component mounts
     window.addEventListener("keydown", handleKeyDown);
-
     // The cleanup function: remove the event listener when the component unmounts
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []); // The empty array means this effect runs once on mount and cleanup on unmount
-
   const Overlay = styled(Box)(({ show }) => ({
     position: "absolute",
     top: 0,
@@ -140,7 +134,6 @@ function Ad() {
     backgroundColor: "rgba(0,0,0,0)", // Transparent background
     cursor: show ? "crosshair" : "default", // Change cursor based on showOverlay state
   }));
-
   const handleCreativeUpload = (event) => {
     const file = event.target.files[0];
     if (!file) {
@@ -160,17 +153,15 @@ function Ad() {
     };
     reader.readAsDataURL(file);
   };
-
   const handleMouseDown = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left; // x position within the element.
-    const y = event.clientY - rect.top; // y position within the elesament.
+    const y = event.clientY - rect.top; // y position within the element.
     setStartPoint({ x, y });
     setIsSelecting(true);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("mousemove", handleMouseMove); // Add this line
   };
-
   const handleMouseMove = (event) => {
     if (isSelecting) {
       const rect = event.currentTarget.getBoundingClientRect();
@@ -184,7 +175,6 @@ function Ad() {
       });
     }
   };
-
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
       setIsSelecting(false);
@@ -196,12 +186,10 @@ function Ad() {
     window.removeEventListener("mouseup", handleMouseUp);
     window.removeEventListener("mousemove", handleMouseMove); // Add this line
   };
-
   const handleIriTextChange = (content, delta, source, editor) => {
     setIriText(editor.getHTML());
     console.log("Fired handleiritextchange"); // This will get the HTML content from the editor
   };
-
   const handleIriTextUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -210,7 +198,6 @@ function Ad() {
     };
     reader.readAsText(file);
   };
-
   const staticHTML = `
   <!DOCTYPE html>
   <html>
@@ -231,7 +218,6 @@ function Ad() {
   </head>
   <body>
     <p><strong>Important Risk Information</strong></p><br>
-
     <p><strong>What is SLYND?</strong></p>
     <p>
       SLYND is a birth control pill (oral contraceptive) that is used by females
@@ -247,7 +233,6 @@ function Ad() {
       health condition with any of the medicines listed below, talk to your
       healthcare provider about whether SLYND is right for you. If you take any
       of the medicines listed below for a chronic health condition you should have a blood test to check the potassium level in your blood before you start taking SLYND and during the first month that you take SLYND.</p>
-
       <ul>
       <li>medicines to treat fungal infections, such as ketoconazole, itraconazole, or voriconazole</li>
       <li>medicines to treat Human Immunodeficiency Virus (HIV) infection or Hepatitis C infection, such as indinavir or boceprevir</li>
@@ -274,10 +259,9 @@ function Ad() {
       </li>
   </ul>  
   <br>
-  <strong>Tell your healthcare providers about all the medicines you take </strong>including prescription and over-the-counter medicines, vitamins and herbal supplements, such as St. John’s Wort. SLYND may affect the way other medicines work, and other medicines may affect how well SLYND works.
+  <strong>Tell your healthcare providers about all the medicines you take </strong>including prescription and over-the-counter medicines, vitamins and herbal supplements, such as St. John's Wort. SLYND may affect the way other medicines work, and other medicines may affect how well SLYND works.
 <bR><bR>
 <strong>What are the possible serious side effects of SLYND?<br><br>
-
 SLYND may cause serious side effects, including:<br>
 <ul><li>High potassium levels in your blood (hyperkalemia).</strong> Certain medicines and conditions can also increase the potassium levels in your blood. Your healthcare provider may check the potassium levels in your blood before and during treatment with SLYND. <strong>Call your healthcare provider or go to a hospital emergency room right away if you have signs or symptoms of high potassium levels in your blood including:</strong></li>
 <ul><li>weakness or numbness in an arm or leg.</li>
@@ -313,32 +297,76 @@ Risk of high blood sugar levels in people with diabetes.</li>
 <li>severe vaginal bleeding</li>
 <li>less sexual desire</li></ul>
 <br>
-
 These are not all the possible side effects of SLYND.<br><br>
-
 <strong>Slynd does not protect against HIV infection (AIDS) and other sexually transmitted diseases (STDs).</strong><br><br>
-
 This is not all of the important information about SLYND. <br><br>
-
 <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full  <strong>Prescribing Information.</strong></a>
-
-
   </p>
   </body>
 </html>
   `;
-
+  const isiHTML = `
+  <!DOCTYPE html>
+<html>
+<head>
+<style>
+  * {
+    font-family: Helvetica;
+  }
+  p, ul {
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-family: Helvetica;
+  }
+</style>
+</head>
+<body>
+  <p><strong>Important Safety Information</strong></p><br>
+  <p><strong>Indication:</strong> SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive potential to prevent pregnancy.</p>
+  <br>
+  <p><strong>Contraindications:</strong> SLYND is contraindicated in females with renal impairment, adrenal insuﬃciency, a presence or history of cervical cancer or progestin sensitive cancers, liver tumors (benign or malignant) or hepatic impairment, and undiagnosed abnormal uterine bleeding.</p>
+  <br>
+  <p><strong>Warnings and Precautions</strong></p>
+  <ul>
+    <li><strong>Hyperkalemia:</strong> SLYND has anti-mineralocorticoid activity, including the potential for hyperkalemia in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment cycle in females receiving daily, long-term treatment for chronic conditions or diseases with medications that may increase serum potassium concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia i.e., those females who take a strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop conditions and/or begin medication that put them at an increased risk for hyperkalemia.</li>
+    <li><strong>Thromboembolic Disorders:</strong> Epidemiological studies have not indicated an association between progestin-only preparations and an increased risk of myocardial infarction, cerebral thromboembolism, or venous thromboembolism. Consider the increased risk of thromboembolism inherent in the postpartum period and in females with a history of thromboembolism. Discontinue SLYND if a thromboembolic event occurs and consider discontinuing SLYND in case of prolonged immobilization due to surgery or illness.</li>
+    <li><strong>Bone Loss:</strong> Treatment with SLYND leads to decreased estradiol serum levels. It is unknown if this may cause a clinically relevant loss of bone mineral density.</li>
+    <li><strong>Liver Disease:</strong> Discontinue SLYND if jaundice or acute or chronic disturbances of liver function develop. Do not resume use until markers of liver function return to normal and SLYND causation has been excluded.</li>
+    <li><strong>Ectopic Pregnancy:</strong> Be alert to the possibility of ectopic pregnancy in females who become pregnant or complain of lower abdominal pain while on SLYND.</li>
+    <li><strong>Risk of Hyperglycemia in Patients with Diabetes:</strong> Females with diabetes may be at greater risk of hyperglycemia and may require additional medication adjustments or monitoring. Progestins, including SLYND, may decrease insulin sensitivity.</li>
+    <li><strong>Bleeding Irregularities and Amenorrhea:</strong> Females may experience unscheduled (breakthrough or intracyclic) bleeding and spotting, especially during the ﬁrst three months of use. If bleeding persists, occurs after previously regular cycles, or if scheduled bleeding does not occur, evaluate for possible causes such as pregnancy or malignancy.</li>
+    <li><strong>Depression:</strong> Carefully observe females with a history of depression and discontinue SLYND if depression recurs to a serious degree. Data on the association of progestin-only contraceptive products with onset of depression
+    and exacerbation of depression are limited.</li>
+  </ul>
+  <br>
+  <p>The most common adverse reactions (>1%) are: acne, metrorrhagia, headache, breast pain, weight increased, dysmenorrhea, nausea, vaginal hemorrhage, decreased libido, breast tenderness, irregular menstruation.</p>
+  <br>
+  <p><strong>Drug Interactions</strong></p>
+  <p>Drugs or herbal products that induce certain enzymes (for example, CYP3A4) may decrease the eﬀectiveness of SLYND or increase breakthrough bleeding. Counsel patients to use a back-up or alternative non-hormonal method of contraception when enzyme inducers are used with SLYND and to continue back-up non-hormonal contraception for 28 days after discontinuing the enzyme inducer. Drugs or products that inhibit CYP3A4 may increase SLYND systemic exposure.</p>
+  <br>
+  <p>Please click here to access the full Prescribing Information.</p>
+</body>
+</html>
+`;
   const handleExport = () => {
-    const updatedIriText = iriText.replace(
-      `Click here to access the full <strong>Prescribing Information.</strong>`,
-      `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
-    );
-
+    const updatedText = isIri
+      ? iriText.replace(
+          "Click here to access the full <strong>Prescribing Information.</strong>",
+          `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
+        )
+      : isiHTML.replace(
+          "Click here to access the full <strong>Prescribing Information.</strong>",
+          `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
+        );
+    console.log(updatedText); // Log updatedText in the console
     const zip = new JSZip();
     zip.file(
       "index.html",
       `<!DOCTYPE html>  
-      <html>
+  <html>
   <head>
   <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
   <script type="text/javascript">
@@ -352,14 +380,17 @@ This is not all of the important information about SLYND. <br><br>
   </style>
   </head>
   <body style="margin: 0; padding: 0">
-
   <div style="position: absolute; width: ${adSize.width}px; height: ${
         adSize.height
       }px;">
     <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
         iriArea.y - 5
       }px; left: ${iriArea.x}px; z-index: 10001">
-      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">Full Prescribing Information</a>
+      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">${
+        isIri
+          ? "IRI Full Prescribing Information"
+          : "ISI Full Prescribing Information"
+      }</a>
     </div>
     <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
     <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
@@ -367,7 +398,7 @@ This is not all of the important information about SLYND. <br><br>
       }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
         iriArea.width
       }px; overflow: hidden; z-index: 10000">
-      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedIriText}</div>
+      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
     </div>
     <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
   </div>
@@ -383,27 +414,24 @@ This is not all of the important information about SLYND. <br><br>
         scrollAmount = 0;
       }
     }, 50);
-  
-    var scrollingTextContainer = document.getElementById("scrollingTextContainer");
-    scrollingTextContainer.style.overflowY = "hidden";
-  
-    scrollingTextContainer.addEventListener("mouseenter", function() {
-      clearInterval(scrollInterval);
-      scrollingTextContainer.style.overflowY = "scroll";
-    });
-  
-    scrollingTextContainer.addEventListener("mouseleave", function() {
-      scrollingTextContainer.style.overflowY = "hidden";
-      scrollInterval = setInterval(function() {
-        scrollAmount += scrollSpeed;
-        scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
-        if (scrollAmount >= scrollingText.scrollHeight) {
-          scrollAmount = 0;
-        }
-      }, 50);
-    });
-  });
-  </script>
+var scrollingTextContainer = document.getElementById("scrollingTextContainer");
+scrollingTextContainer.style.overflowY = "hidden";
+scrollingTextContainer.addEventListener("mouseenter", function() {
+  clearInterval(scrollInterval);
+  scrollingTextContainer.style.overflowY = "scroll";
+});
+scrollingTextContainer.addEventListener("mouseleave", function() {
+  scrollingTextContainer.style.overflowY = "hidden";
+  scrollInterval = setInterval(function() {
+    scrollAmount += scrollSpeed;
+    scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
+    if (scrollAmount >= scrollingText.scrollHeight) {
+      scrollAmount = 0;
+    }
+  }, 50);
+});
+});
+</script>
   </body>
   </html>`
     );
@@ -412,10 +440,8 @@ This is not all of the important information about SLYND. <br><br>
       saveAs(content, "ad.zip");
     });
   };
-
   return (
     <>
-      <GlobalStyle />
       <AdContainer>
         <CreativeContainer
           style={{ flexDirection: "column", alignItems: "flex-start" }}
@@ -443,10 +469,7 @@ This is not all of the important information about SLYND. <br><br>
             </>
           )}
           {(isSelecting || (iriArea.width > 0 && iriArea.height > 0)) && (
-            <FullPrescribingInfoLink
-              top={iriArea.y - 5} // Adjust this value as needed
-              left={iriArea.x}
-            />
+            <FullPrescribingInfoLink top={iriArea.y - 5} left={iriArea.x} />
           )}
           <IriArea
             style={{
@@ -456,11 +479,11 @@ This is not all of the important information about SLYND. <br><br>
               width: iriArea.width,
               height: iriArea.height,
               border: isSelecting ? "1px dashed #000" : "none",
-              overflow: "auto", // allow text to wrap within the area
+              overflow: "auto",
               whiteSpace: "pre-wrap",
-              fontFamily: " Helvetica, Arial, sans-serif", // Change the font family as needed
+              fontFamily: "Helvetica, Arial, sans-serif",
             }}
-            dangerouslySetInnerHTML={{ __html: iriText }}
+            dangerouslySetInnerHTML={{ __html: isIri ? iriText : isiHTML }}
           />
         </CreativeContainer>
         <Sidebar>
@@ -481,8 +504,36 @@ This is not all of the important information about SLYND. <br><br>
             <MenuItem value='{"width":320,"height":50}'>320x50</MenuItem>
             <MenuItem value='{"width":320,"height":100}'>320x100</MenuItem>
           </TextField>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                value="start"
+                control={
+                  <Switch
+                    checked={isIri}
+                    onChange={(e) => {
+                      setIsIri(e.target.checked);
+                      setClickTag(
+                        e.target.checked
+                          ? "http://www.slynd.com"
+                          : "https://hcp.slynd.com/"
+                      );
+                      setFullPrescribingInfoLink(
+                        e.target.checked
+                          ? "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
+                          : "https://hcp.slynd.com/wp-content/uploads/2019/08/prescribing-information.pdf"
+                      );
+                    }}
+                    color="primary"
+                  />
+                }
+                label={isIri ? "IRI" : "ISI"}
+                labelPlacement="start"
+              />
+            </FormGroup>
+          </FormControl>
           <TextField
-            label="Click Tag URL"
+            label={isIri ? "IRI Click Tag URL" : "ISI Click Tag URL"}
             value={clickTag}
             onChange={(e) => setClickTag(e.target.value)}
             variant="outlined"
@@ -490,7 +541,11 @@ This is not all of the important information about SLYND. <br><br>
             margin="normal"
           />
           <TextField
-            label="Full Prescribing Information Link"
+            label={
+              isIri
+                ? "IRI Full Prescribing Information Link"
+                : "ISI Full Prescribing Information Link"
+            }
             value={fullPrescribingInfoLink}
             onChange={(e) => setFullPrescribingInfoLink(e.target.value)}
             variant="outlined"
@@ -511,7 +566,9 @@ This is not all of the important information about SLYND. <br><br>
               }
             }}
           >
-            {showOverlay ? "Hit Escape When Done" : "Select IRI Area"}
+            {showOverlay
+              ? "Hit Escape When Done"
+              : `Select ${isIri ? "IRI" : "ISI"} Area`}
           </Button>
           <Accordion>
             <AccordionSummary
@@ -529,31 +586,17 @@ This is not all of the important information about SLYND. <br><br>
                   paddingBottom: "5px",
                 }}
               >
-                IRI Text
+                {isIri ? "IRI Text" : "ISI Text"}
               </Typography>
               <ReactQuill
                 ref={quillRef}
-                value={staticHTML}
+                value={isIri ? staticHTML : isiHTML}
                 onChange={handleIriTextChange}
                 theme="snow"
                 modules={Ad.modules}
                 formats={Ad.formats}
                 style={{ height: "250px", marginBottom: "30px" }}
               />
-              {/* <TextField
-                label="IRI Text"
-                multiline
-                rows={8} // You can specify the number of rows the textarea will have by default
-                value={staticHTML}
-                onChange={handleIriTextChange}
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  style: {
-                    fontSize: "10px", // Set the font size you desire
-                  },
-                }}
-              /> */}
               <TextField
                 select
                 label="Font Size"
@@ -594,7 +637,9 @@ This is not all of the important information about SLYND. <br><br>
             Export
           </Button>
           <Box sx={{ marginTop: 2, padding: 1, border: "1px solid grey" }}>
-            <Typography variant="h6">IRI Area Details:</Typography>
+            <Typography variant="h6">
+              {isIri ? "IRI" : "ISI"} Area Details:
+            </Typography>
             <Typography variant="body1">X: {iriArea.x}px</Typography>
             <Typography variant="body1">Y: {iriArea.y}px</Typography>
             <Typography variant="body1">Width: {iriArea.width}px</Typography>
@@ -606,5 +651,4 @@ This is not all of the important information about SLYND. <br><br>
     </>
   );
 }
-
 export default Ad;
