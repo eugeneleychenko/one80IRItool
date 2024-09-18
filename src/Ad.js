@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -14,21 +14,27 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {styled} from "@mui/system";
+import { styled } from "@mui/system";
 import JSZip from "jszip";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
 const Sidebar = styled(Box)({
-  width: "300px", marginRight: "20px",
+  width: "300px",
+  marginRight: "20px",
 });
 const CreativeContainer = styled(Box)({
-  flex: 1, display: "flex", justifyContent: "flex-start", alignItems: "center",
+  flex: 1,
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
 });
 const AdContainer = styled(Box)({
-  display: "flex", flexDirection: "row", justifyContent: "space-between", // This will push the sidebar to the right
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between", // This will push the sidebar to the right
 });
 const GlobalStyle = createGlobalStyle`
     p {
@@ -39,36 +45,42 @@ const GlobalStyle = createGlobalStyle`
 
 function Ad() {
   const [creative, setCreative] = useState(null);
-  const [iriArea, setIriArea] = useState({x: 0, y: 0, height: 0, width: 0});
+  const [iriArea, setIriArea] = useState({ x: 0, y: 0, height: 0, width: 0 });
   const [iriText, setIriText] = useState("");
   const [clickTag, setClickTag] = useState("http://www.slynd.com");
-  const [fullPrescribingInfoLink, setFullPrescribingInfoLink] = useState("https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"); // Add this line
+  const [fullPrescribingInfoLink, setFullPrescribingInfoLink] = useState(
+    "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
+  ); // Add this line
   const [isSelecting, setIsSelecting] = useState(false);
-  const [startPoint, setStartPoint] = useState({x: 0, y: 0});
-  const [adSize, setAdSize] = useState({width: 300, height: 250}); // default ad size
+  const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
+  const [adSize, setAdSize] = useState({ width: 300, height: 250 }); // default ad size
   // Add a new state to track the overlay visibility
   const [showOverlay, setShowOverlay] = useState(false);
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
   const [isIri, setIsIri] = useState(true); // New state for IRI/ISI switch
-  const FullPrescribingInfoLink = ({top, left}) => (<a
-    href={fullPrescribingInfoLink}
-    style={{
-      textDecoration: "underline",
-      cursor: "pointer",
-      color: "blue",
-      position: "absolute",
-      top: `${top}px`,
-      left: `${left}px`,
-      zIndex: 10001,
-      fontSize: fontSize, // Use the same font size as the ir i
-      fontFamily: "Helvetica, Arial, sans-serif", // Use the same font family as the iri
-    }}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {isIri ? "IRI Full Prescribing Information" : "ISI Full Prescribing Information"}
-  </a>);
+  const FullPrescribingInfoLink = ({ top, left }) => (
+    <a
+      href={fullPrescribingInfoLink}
+      style={{
+        textDecoration: "underline",
+        cursor: "pointer",
+        color: "blue",
+        position: "absolute",
+        top: `${top}px`,
+        left: `${left}px`,
+        zIndex: 10001,
+        fontSize: fontSize, // Use the same font size as the ir i
+        fontFamily: "Helvetica, Arial, sans-serif", // Use the same font family as the iri
+      }}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {isIri
+        ? "IRI Full Prescribing Information"
+        : "ISI Full Prescribing Information"}
+    </a>
+  );
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -80,9 +92,21 @@ function Ad() {
   Ad.formats = ["size", "bold", "list", "bullet", "indent", "link"];
   // Include any additional modules for toolbar functionality
   Ad.modules = {
-    toolbar: [[{header: "1"}, {header: "2"}, {font: ["Helvetica Neue"]}], [{size: ["6px", "7px", "8px", "10px", "12px", "14px", "18px", "24px"]}], ["bold", "blockquote"], [{list: "ordered"}, {list: "bullet"}, {indent: "-1"}, {indent: "+1"},], ["link"], ["clean"],],
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: ["Helvetica Neue"] }],
+      [{ size: ["6px", "7px", "8px", "10px", "12px", "14px", "18px", "24px"] }],
+      ["bold", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link"],
+      ["clean"],
+    ],
     clipboard: {
-      matchVisual: false
+      matchVisual: false,
     },
   };
   const quillRef = React.useRef(null);
@@ -104,8 +128,13 @@ function Ad() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []); // The empty array means this effect runs once on mount and cleanup on unmount
-  const Overlay = styled(Box)(({show}) => ({
-    position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0)", // Transparent background
+  const Overlay = styled(Box)(({ show }) => ({
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0)", // Transparent background
     cursor: show ? "crosshair" : "default", // Change cursor based on showOverlay state
   }));
   const handleCreativeUpload = (event) => {
@@ -117,7 +146,9 @@ function Ad() {
     const reader = new FileReader();
     reader.onload = (e) => {
       setCreative({
-        src: e.target.result, width: adSize.width, height: adSize.height,
+        src: e.target.result,
+        width: adSize.width,
+        height: adSize.height,
       });
     };
     reader.onerror = (e) => {
@@ -129,7 +160,7 @@ function Ad() {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left; // x position within the element.
     const y = event.clientY - rect.top; // y position within the element.
-    setStartPoint({x, y});
+    setStartPoint({ x, y });
     setIsSelecting(true);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("mousemove", handleMouseMove); // Add this line
@@ -172,7 +203,8 @@ function Ad() {
   };
   const staticHTML = `
 <div style="white-space: normal;">
-    <p><strong>Important Risk Information</strong></p>
+<p><strong>Slynd does not protect against HIV infection (AIDS) and other sexually transmitted diseases (STDs).</strong></p>    
+
     <br>
     <p>
         <strong>What is SLYND?</strong>
@@ -180,6 +212,7 @@ function Ad() {
     <p>SLYND is a birth control pill (oral contraceptive) that is used by females who can become pregnant to prevent
         pregnancy.</p>
     <br>
+    <p><strong>Important Risk Information</strong></p>
     <p>The progestin drospirenone may increase potassium levels in your blood. You should not take SLYND if you have
         kidney, liver or adrenal disease because this could cause serious heart problems as well as other health
         problems. Other medicines may also increase
@@ -313,15 +346,10 @@ function Ad() {
     <br>
     <p>These are not all the possible side effects of SLYND.</p>
     <br>
-    <p>
-        <strong>Slynd does not protect against HIV infection (AIDS) and other sexually transmitted diseases
-            (STDs).</strong>
-    </p>
-    <br>
+   
     <p>This is not all of the important information about SLYND.</p>
     <br>
-    <a href="${fullPrescribingInfoLink}" rel="noopener noreferrer" target="_blank">Click here to access the full
-        <strong>Prescribing Information.</strong></a>
+    <p>Click on the ad to access the full <a href="${fullPrescribingInfoLink}" rel="noopener noreferrer" target="_blank">Prescribing Information</a>, including the Patient Information.</p>
 </div>
 `;
   const isiHTML = `<div style="white-space: normal;"><p>
@@ -445,10 +473,20 @@ function Ad() {
 </div>
 `;
   const handleExport = () => {
-    const updatedText = isIri ? iriText.replace("Click here to access the full <strong>Prescribing Information.</strong>", `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`) : isiHTML.replace("Click here to access the full <strong>Prescribing Information.</strong>", `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`);
+    const updatedText = isIri
+      ? iriText.replace(
+          "Click on the ad to access the full Prescribing Information, including the Patient Information.",
+          `Click on the ad to access the full <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Prescribing Information</a>, including the Patient Information.`
+        )
+      : isiHTML.replace(
+          "Click here to access the full <strong>Prescribing Information.</strong>",
+          `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
+        );
     console.log(updatedText); // Log updatedText in the console
     const zip = new JSZip();
-    zip.file("index.html", `<!DOCTYPE html>  
+    zip.file(
+      "index.html",
+      `<!DOCTYPE html>  
   <html>
   <head>
   <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
@@ -465,12 +503,24 @@ function Ad() {
   </style>
   </head>
   <body style="margin: 0; padding: 0">
-  <div style="position: absolute; width: ${adSize.width}px; height: ${adSize.height}px;">
-    <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${iriArea.y - 15}px; left: ${iriArea.x}px; z-index: 10001">
-      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">${isIri ? "IRI Full Prescribing Information" : "ISI Full Prescribing Information"}</a>
+  <div style="position: absolute; width: ${adSize.width}px; height: ${
+        adSize.height
+      }px;">
+    <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+        iriArea.y - 15
+      }px; left: ${iriArea.x}px; z-index: 10001">
+      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">${
+        isIri
+          ? "IRI Full Prescribing Information"
+          : "ISI Full Prescribing Information"
+      }</a>
     </div>
     <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
-    <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${iriArea.y}px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${iriArea.width}px; overflow: hidden; z-index: 10000">
+    <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+        iriArea.y
+      }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
+        iriArea.width
+      }px; overflow: hidden; z-index: 10000">
       <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
     </div>
     <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
@@ -506,201 +556,228 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
 });
 </script>
   </body>
-  </html>`);
-    zip.file("bg.png", creative.src.split(",")[1], {base64: true});
-    zip.generateAsync({type: "blob"}).then(function (content) {
+  </html>`
+    );
+    zip.file("bg.png", creative.src.split(",")[1], { base64: true });
+    zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, "ad.zip");
     });
   };
-  return (<>
-    <AdContainer>
-      <CreativeContainer
-        style={{flexDirection: "column", alignItems: "flex-start"}}
-      >
-        {creative && (<>
-          <img
-            src={creative.src}
-            alt="Creative"
-            width={adSize.width}
-            height={adSize.height}
-            style={{
-              display: "block", marginRight: "20px",
-            }}
-          />
-          {showOverlay && (<Overlay
-            show={showOverlay}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={() => setIsSelecting(false)}
-          />)}
-        </>)}
-        {(isSelecting || (iriArea.width > 0 && iriArea.height > 0)) && (
-          <FullPrescribingInfoLink top={iriArea.y - 15} left={iriArea.x}/>)}
-        <IriArea
-          style={{
-            position: "absolute",
-            top: iriArea.y, // Adjust the top position based on IRI or ISI
-            left: iriArea.x,
-            width: iriArea.width,
-            height: iriArea.height,
-            border: isSelecting ? "1px dashed #000" : "none",
-            overflow: "auto",
-            whiteSpace: "pre-wrap",
-            fontFamily: "Helvetica, Arial, sans-serif",
-          }}
+  return (
+    <>
+      <AdContainer>
+        <CreativeContainer
+          style={{ flexDirection: "column", alignItems: "flex-start" }}
         >
-          <div
-            className="ql-editor"
-            style={{padding: "5px"}}
-            dangerouslySetInnerHTML={{__html: isIri ? iriText : isiHTML}}
-          />
-        </IriArea>
-      </CreativeContainer>
-      <Sidebar>
-        <TextField
-          select
-          label="Ad Size"
-          value={JSON.stringify(adSize)}
-          onChange={(e) => setAdSize(JSON.parse(e.target.value))}
-          helperText="Please select the ad size"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        >
-          <MenuItem value='{"width":160,"height":600}'>160x600</MenuItem>
-          <MenuItem value='{"width":300,"height":250}'>300x250</MenuItem>
-          <MenuItem value='{"width":300,"height":600}'>300x600</MenuItem>
-          <MenuItem value='{"width":728,"height":90}'>728x90</MenuItem>
-          <MenuItem value='{"width":320,"height":50}'>320x50</MenuItem>
-          <MenuItem value='{"width":320,"height":100}'>320x100</MenuItem>
-        </TextField>
-        <FormControl component="fieldset">
-          <FormGroup aria-label="position" row>
-            <FormControlLabel
-              value="start"
-              control={<Switch
-                checked={isIri}
-                onChange={(e) => {
-                  setIsIri(e.target.checked);
-                  setClickTag(e.target.checked ? "http://www.slynd.com" : "https://hcp.slynd.com/");
-                  setFullPrescribingInfoLink(e.target.checked ? "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15" : "https://hcp.slynd.com/wp-content/uploads/2019/08/prescribing-information.pdf");
+          {creative && (
+            <>
+              <img
+                src={creative.src}
+                alt="Creative"
+                width={adSize.width}
+                height={adSize.height}
+                style={{
+                  display: "block",
+                  marginRight: "20px",
                 }}
-                color="primary"
-              />}
-              label={isIri ? "IRI" : "ISI"}
-              labelPlacement="start"
-            />
-          </FormGroup>
-        </FormControl>
-        <TextField
-          label={isIri ? "IRI Click Tag URL" : "ISI Click Tag URL"}
-          value={clickTag}
-          onChange={(e) => setClickTag(e.target.value)}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label={isIri ? "IRI Full Prescribing Information Link" : "ISI Full Prescribing Information Link"}
-          value={fullPrescribingInfoLink}
-          onChange={(e) => setFullPrescribingInfoLink(e.target.value)}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
-        <Button variant="contained" component="label" sx={{margin: 1}}>
-          Upload Creative
-          <input type="file" hidden onChange={handleCreativeUpload}/>
-        </Button>
-        <Button
-          variant="contained"
-          sx={{margin: 1}}
-          onClick={() => {
-            setShowOverlay(!showOverlay); // Toggle the overlay visibility
-            if (isSelecting) {
-              setIsSelecting(false); // Ensure selection is turned off when toggling the overlay
-            }
-          }}
-        >
-          {showOverlay ? "Hit Escape When Done" : `Select ${isIri ? "IRI" : "ISI"} Area`}
-        </Button>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon/>}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+              />
+              {showOverlay && (
+                <Overlay
+                  show={showOverlay}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={() => setIsSelecting(false)}
+                />
+              )}
+            </>
+          )}
+          {(isSelecting || (iriArea.width > 0 && iriArea.height > 0)) && (
+            <FullPrescribingInfoLink top={iriArea.y - 15} left={iriArea.x} />
+          )}
+          <IriArea
+            style={{
+              position: "absolute",
+              top: iriArea.y, // Adjust the top position based on IRI or ISI
+              left: iriArea.x,
+              width: iriArea.width,
+              height: iriArea.height,
+              border: isSelecting ? "1px dashed #000" : "none",
+              overflow: "auto",
+              whiteSpace: "pre-wrap",
+              fontFamily: "Helvetica, Arial, sans-serif",
+            }}
           >
-            <Typography>Customization Options</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography
-              sx={{
-                fontSize: "12px", textAlign: "left", paddingBottom: "5px",
-              }}
-            >
-              {isIri ? "IRI Text" : "ISI Text"}
-            </Typography>
-            <ReactQuill
-              ref={quillRef}
-              value={isIri ? staticHTML : isiHTML}
-              onChange={handleIriTextChange}
-              theme="snow"
-              modules={Ad.modules}
-              formats={Ad.formats}
-              style={{height: "250px", marginBottom: "30px"}}
+            <div
+              className="ql-editor"
+              style={{ padding: "5px" }}
+              dangerouslySetInnerHTML={{ __html: isIri ? iriText : isiHTML }}
             />
-            <TextField
-              select
-              label="Font Size"
-              value={fontSize}
-              onChange={(e) => setFontSize(e.target.value)}
-              helperText="Select the font size"
-              variant="outlined"
-              fullWidth
-              margin="normal"
+          </IriArea>
+        </CreativeContainer>
+        <Sidebar>
+          <TextField
+            select
+            label="Ad Size"
+            value={JSON.stringify(adSize)}
+            onChange={(e) => setAdSize(JSON.parse(e.target.value))}
+            helperText="Please select the ad size"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+          >
+            <MenuItem value='{"width":160,"height":600}'>160x600</MenuItem>
+            <MenuItem value='{"width":300,"height":250}'>300x250</MenuItem>
+            <MenuItem value='{"width":300,"height":600}'>300x600</MenuItem>
+            <MenuItem value='{"width":728,"height":90}'>728x90</MenuItem>
+            <MenuItem value='{"width":320,"height":50}'>320x50</MenuItem>
+            <MenuItem value='{"width":320,"height":100}'>320x100</MenuItem>
+          </TextField>
+          <FormControl component="fieldset">
+            <FormGroup aria-label="position" row>
+              <FormControlLabel
+                value="start"
+                control={
+                  <Switch
+                    checked={isIri}
+                    onChange={(e) => {
+                      setIsIri(e.target.checked);
+                      setClickTag(
+                        e.target.checked
+                          ? "http://www.slynd.com"
+                          : "https://hcp.slynd.com/"
+                      );
+                      setFullPrescribingInfoLink(
+                        e.target.checked
+                          ? "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
+                          : "https://hcp.slynd.com/wp-content/uploads/2019/08/prescribing-information.pdf"
+                      );
+                    }}
+                    color="primary"
+                  />
+                }
+                label={isIri ? "IRI" : "ISI"}
+                labelPlacement="start"
+              />
+            </FormGroup>
+          </FormControl>
+          <TextField
+            label={isIri ? "IRI Click Tag URL" : "ISI Click Tag URL"}
+            value={clickTag}
+            onChange={(e) => setClickTag(e.target.value)}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label={
+              isIri
+                ? "IRI Full Prescribing Information Link"
+                : "ISI Full Prescribing Information Link"
+            }
+            value={fullPrescribingInfoLink}
+            onChange={(e) => setFullPrescribingInfoLink(e.target.value)}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+          />
+          <Button variant="contained" component="label" sx={{ margin: 1 }}>
+            Upload Creative
+            <input type="file" hidden onChange={handleCreativeUpload} />
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ margin: 1 }}
+            onClick={() => {
+              setShowOverlay(!showOverlay); // Toggle the overlay visibility
+              if (isSelecting) {
+                setIsSelecting(false); // Ensure selection is turned off when toggling the overlay
+              }
+            }}
+          >
+            {showOverlay
+              ? "Hit Escape When Done"
+              : `Select ${isIri ? "IRI" : "ISI"} Area`}
+          </Button>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              <MenuItem value="6px">6px</MenuItem>
-              <MenuItem value="7px">7px</MenuItem>
-              <MenuItem value="8px">8px</MenuItem>
-              <MenuItem value="10px">10px</MenuItem>
-              <MenuItem value="12px">12px</MenuItem>
-              <MenuItem value="14px">14px</MenuItem>
-              <MenuItem value="18px">18px</MenuItem>
-              <MenuItem value="24px">24px</MenuItem>
-            </TextField>
-            <TextField
-              select
-              label="Text Alignment"
-              value={textAlign}
-              onChange={(e) => setTextAlign(e.target.value)}
-              helperText="Select the text alignment"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            >
-              <MenuItem value="left">Left</MenuItem>
-              <MenuItem value="center">Center</MenuItem>
-              <MenuItem value="right">Right</MenuItem>
-              <MenuItem value="justify">Justify</MenuItem>
-            </TextField>
-          </AccordionDetails>
-        </Accordion>
-        <Button variant="contained" onClick={handleExport} sx={{margin: 1}}>
-          Export
-        </Button>
-        <Box sx={{marginTop: 2, padding: 1, border: "1px solid grey"}}>
-          <Typography variant="h6">
-            {isIri ? "IRI" : "ISI"} Area Details:
-          </Typography>
-          <Typography variant="body1">X: {iriArea.x}px</Typography>
-          <Typography variant="body1">Y: {iriArea.y}px</Typography>
-          <Typography variant="body1">Width: {iriArea.width}px</Typography>
-          <Typography variant="body1">Height: {iriArea.height}px</Typography>
-        </Box>
-        <br/>
-      </Sidebar>
-    </AdContainer>
-  </>);
+              <Typography>Customization Options</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  textAlign: "left",
+                  paddingBottom: "5px",
+                }}
+              >
+                {isIri ? "IRI Text" : "ISI Text"}
+              </Typography>
+              <ReactQuill
+                ref={quillRef}
+                value={isIri ? staticHTML : isiHTML}
+                onChange={handleIriTextChange}
+                theme="snow"
+                modules={Ad.modules}
+                formats={Ad.formats}
+                style={{ height: "250px", marginBottom: "30px" }}
+              />
+              <TextField
+                select
+                label="Font Size"
+                value={fontSize}
+                onChange={(e) => setFontSize(e.target.value)}
+                helperText="Select the font size"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value="6px">6px</MenuItem>
+                <MenuItem value="7px">7px</MenuItem>
+                <MenuItem value="8px">8px</MenuItem>
+                <MenuItem value="10px">10px</MenuItem>
+                <MenuItem value="12px">12px</MenuItem>
+                <MenuItem value="14px">14px</MenuItem>
+                <MenuItem value="18px">18px</MenuItem>
+                <MenuItem value="24px">24px</MenuItem>
+              </TextField>
+              <TextField
+                select
+                label="Text Alignment"
+                value={textAlign}
+                onChange={(e) => setTextAlign(e.target.value)}
+                helperText="Select the text alignment"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value="left">Left</MenuItem>
+                <MenuItem value="center">Center</MenuItem>
+                <MenuItem value="right">Right</MenuItem>
+                <MenuItem value="justify">Justify</MenuItem>
+              </TextField>
+            </AccordionDetails>
+          </Accordion>
+          <Button variant="contained" onClick={handleExport} sx={{ margin: 1 }}>
+            Export
+          </Button>
+          <Box sx={{ marginTop: 2, padding: 1, border: "1px solid grey" }}>
+            <Typography variant="h6">
+              {isIri ? "IRI" : "ISI"} Area Details:
+            </Typography>
+            <Typography variant="body1">X: {iriArea.x}px</Typography>
+            <Typography variant="body1">Y: {iriArea.y}px</Typography>
+            <Typography variant="body1">Width: {iriArea.width}px</Typography>
+            <Typography variant="body1">Height: {iriArea.height}px</Typography>
+          </Box>
+          <br />
+        </Sidebar>
+      </AdContainer>
+    </>
+  );
 }
 
 export default Ad;
