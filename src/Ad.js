@@ -59,28 +59,27 @@ function Ad() {
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
   const [isIri, setIsIri] = useState(true); // New state for IRI/ISI switch
-  const FullPrescribingInfoLink = ({ top, left }) => (
-    <a
-      href={fullPrescribingInfoLink}
-      style={{
-        textDecoration: "underline",
-        cursor: "pointer",
-        color: "blue",
-        position: "absolute",
-        top: `${top}px`,
-        left: `${left}px`,
-        zIndex: 10001,
-        fontSize: fontSize, // Use the same font size as the ir i
-        fontFamily: "Helvetica, Arial, sans-serif", // Use the same font family as the iri
-      }}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {isIri
-        ? "IRI Full Prescribing Information"
-        : "ISI Full Prescribing Information"}
-    </a>
-  );
+  const FullPrescribingInfoLink = ({ top, left }) =>
+    isIri ? (
+      <a
+        href={fullPrescribingInfoLink}
+        style={{
+          textDecoration: "underline",
+          cursor: "pointer",
+          color: "blue",
+          position: "absolute",
+          top: `${top}px`,
+          left: `${left}px`,
+          zIndex: 10001,
+          fontSize: fontSize,
+          fontFamily: "Helvetica, Arial, sans-serif",
+        }}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        IRI Full Prescribing Information
+      </a>
+    ) : null;
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -352,126 +351,40 @@ function Ad() {
     <p>Click on the ad to access the full <a href="${fullPrescribingInfoLink}" rel="noopener noreferrer" target="_blank">Prescribing Information</a>, including the Patient Information.</p>
 </div>
 `;
-  const isiHTML = `<div style="white-space: normal;"><p>
-        <strong>Important Safety Information</strong>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Indication</strong>: SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive
-        potential to prevent pregnancy.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Contraindications</strong>: SLYND is contraindicated in females with renal impairment, adrenal
-        insuﬃciency,
-        a presence or history of cervical cancer or progestin sensitive cancers, liver tumors (benign or malignant) or
-        hepatic impairment, and undiagnosed
-        abnormal uterine bleeding.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Warnings and Precautions</strong>
-    </p>
-    <p>
-        <strong>Hyperkalemia</strong>: SLYND has anti-mineralocorticoid activity, including the potential for
-        hyperkalemia
-        in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment
-        cycle
-        in females receiving daily,
-        long-term treatment for chronic conditions or diseases with medications that may increase serum potassium
-        concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia
-        i.e.,
-        those females who take a
-        strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop
-        conditions and/or begin medication that put them at an increased risk for hyperkalemia.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Thromboembolic Disorders</strong>: Epidemiological studies have not indicated an association between
-        progestin-only preparations and an increased risk of myocardial infarction, cerebral thromboembolism, or venous
-        thromboembolism. Consider the increased
-        risk of thromboembolism inherent in the postpartum period and in females with a history of thromboembolism.
-        Discontinue SLYND if a thromboembolic event occurs and consider discontinuing SLYND in case of prolonged
-        immobilization due to surgery or illness.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Bone Loss</strong>: Treatment with SLYND leads to decreased estradiol serum levels. It is unknown if
-        this
-        may cause a clinically relevant loss of bone mineral density.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Liver Disease</strong>: Discontinue SLYND if jaundice or acute or chronic disturbances of liver function
-        develop. Do not resume use until markers of liver function return to normal and SLYND causation has been
-        excluded.
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Ectopic Pregnancy</strong>: Be alert to the possibility of ectopic pregnancy in females who become
-        pregnant
-        or complain of lower abdominal pain while on SLYND.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Risk of Hyperglycemia in Patients with Diabetes</strong>: Females with diabetes may be at greater risk
-        of
-        hyperglycemia and may require additional medication adjustments or monitoring. Progestins, including SLYND, may
-        decrease insulin sensitivity.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Bleeding Irregularities and Amenorrhea</strong>: Females may experience unscheduled (breakthrough or
-        intracyclic) bleeding and spotting, especially during the ﬁrst three months of use. If bleeding persists, occurs
-        after previously regular cycles,
-        or if scheduled bleeding does not occur, evaluate for possible causes such as pregnancy or malignancy.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Depression</strong>: Carefully observe females with a history of depression and discontinue SLYND if
-        depression recurs to a serious degree. Data on the association of progestin-only contraceptive products with
-        onset
-        of depression and exacerbation
-        of depression are limited.</p>
-    <p>
-        <br>
-    </p>
-    <p>The most common adverse reactions (&gt;1%) are: acne, metrorrhagia, headache, breast pain, weight increased,
-        dysmenorrhea, nausea, vaginal hemorrhage, decreased libido, breast tenderness, irregular menstruation.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <strong>Drug Interactions</strong>
-    </p>
-    <p>Drugs or herbal products that induce certain enzymes (for example, CYP3A4) may decrease the eﬀectiveness of SLYND
-        or
-        increase breakthrough bleeding. Counsel patients to use a back-up or alternative non-hormonal method of
-        contraception when enzyme inducers
-        are used with SLYND and to continue back-up non-hormonal contraception for 28 days after discontinuing the
-        enzyme
-        inducer. Drugs or products that inhibit CYP3A4 may increase SLYND systemic exposure.</p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <a href="${fullPrescribingInfoLink}" rel="noopener noreferrer" target="_blank">Click here to access the full
-            <strong>Prescribing Information.</strong></a>
-    </p>
-</div>
-`;
+  const isiHTML = `<div style="white-space: normal;">
+<p><a href="https://slynd.com/wp-content/uploads/2024/04/prescribing-information.pdf" target="_blank" rel="noopener noreferrer"><strong>Full Prescribing Information</strong></a></p>
+<br>
+<p><strong>Indication</strong>: SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive potential to prevent pregnancy.</p>
+<br>
+<p><strong>Important Safety Information</strong></p>
+<br>
+<p><strong>Contraindications</strong>: SLYND is contraindicated in females with renal impairment, adrenal insuﬃciency, a presence or history of cervical cancer or progestin sensitive cancers, liver tumors (benign or malignant) or hepatic impairment, and undiagnosed abnormal uterine bleeding.</p>
+<br>
+<p><strong>Warnings and Precautions</strong></p>
+
+<p><strong>Hyperkalemia</strong>: SLYND has anti-mineralocorticoid activity, including the potential for hyperkalemia in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment cycle in females receiving daily, long-term treatment for chronic conditions or diseases with medications that may increase serum potassium concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia i.e., those females who take a strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop conditions and/or begin medication that put them at an increased risk for hyperkalemia.</p>
+<br>
+<p><strong>Thromboembolic Disorders</strong>: Epidemiological studies have not indicated an association between progestin-only preparations and an increased risk of myocardial infarction, cerebral thromboembolism, or venous thromboembolism. Consider the increased risk of thromboembolism inherent in the postpartum period and in females with a history of thromboembolism. Discontinue SLYND if a thromboembolic event occurs and consider discontinuing SLYND in case of prolonged immobilization due to surgery or illness.</p>
+<br>
+<p><strong>Bone Loss</strong>: Treatment with SLYND leads to decreased estradiol serum levels. It is unknown if this may cause a clinically relevant loss of bone mineral density.</p>
+<br>
+<p><strong>Liver Disease</strong>: Discontinue SLYND if jaundice or acute or chronic disturbances of liver function develop. Do not resume use until markers of liver function return to normal and SLYND causation has been excluded.</p>
+<br>
+<p><strong>Ectopic Pregnancy</strong>: Be alert to the possibility of ectopic pregnancy in females who become pregnant or complain of lower abdominal pain while on SLYND.</p>
+<br>
+<p><strong>Risk of Hyperglycemia in Patients with Diabetes:</strong> Females with diabetes may be at greater risk of hyperglycemia and may require additional medication adjustments or monitoring. Progestins, including SLYND, may decrease insulin sensitivity.</p>
+<br>
+<p><strong>Bleeding Irregularities and Amenorrhea:</strong> Females may experience unscheduled (breakthrough or intracyclic) bleeding and spotting, especially during the ﬁrst three months of use. If bleeding persists, occurs after previously regular cycles, or if scheduled bleeding does not occur, evaluate for possible causes such as pregnancy or malignancy.</p>
+<br>
+<p><strong>Depression:</strong> Carefully observe females with a history of depression and discontinue SLYND if depression recurs to a serious degree. Data on the association of progestin-only contraceptive products with onset of depression and exacerbation of depression are limited.</p>
+<br>
+<p>The most common adverse reactions (>1%) are: acne, metrorrhagia, headache, breast pain, weight increased, dysmenorrhea, nausea, vaginal hemorrhage, decreased libido, breast tenderness, irregular menstruation.</p>
+<br>
+<p><strong>Drug Interactions</strong></p>
+<p>Drugs or herbal products that induce certain enzymes (for example, CYP3A4) may decrease the eﬀectiveness of SLYND or increase breakthrough bleeding. Counsel patients to use a back-up or alternative non-hormonal method of contraception when enzyme inducers are used with SLYND and to continue back-up non-hormonal contraception for 28 days after discontinuing the enzyme inducer. Drugs or products that inhibit CYP3A4 may increase SLYND systemic exposure.</p>
+<br>
+<p><a href="https://hcp.slynd.com/wp-content/uploads/2019/08/prescribing-information.pdf" target="_blank" rel="noopener noreferrer"><strong>Click here</strong> to access the full <strong>Prescribing Information.</strong></p></a>
+</div>`;
   const handleExport = () => {
     const updatedText = isIri
       ? iriText.replace(
