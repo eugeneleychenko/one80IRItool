@@ -395,61 +395,63 @@ function Ad() {
           "Click here to access the full <strong>Prescribing Information.</strong>",
           `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
         );
-    console.log(updatedText); // Log updatedText in the console
+
     const zip = new JSZip();
     zip.file(
       "index.html",
       `<!DOCTYPE html>  
-  <html>
-  <head>
-  <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
-  <script type="text/javascript">
-    var clickTag = "${clickTag}";
-  </script>
-  <style>
-    p, ul {
-      margin: 0;
-    }
-    .ql-indent-1 {
-      margin-left: 4.5em;
-    }
-  </style>
-  </head>
-  <body style="margin: 0; padding: 0">
-  <div style="position: absolute; width: ${adSize.width}px; height: ${
+<html>
+<head>
+<meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
+<script type="text/javascript">
+  var clickTag = "${clickTag}";
+</script>
+<style>
+  p, ul {
+    margin: 0;
+  }
+  .ql-indent-1 {
+    margin-left: 4.5em;
+  }
+</style>
+</head>
+<body style="margin: 0; padding: 0">
+<div style="position: absolute; width: ${adSize.width}px; height: ${
         adSize.height
       }px;">
-    <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
-        iriArea.y - 15
-      }px; left: ${iriArea.x}px; z-index: 10001">
-      <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">${
-        isIri
-          ? "IRI Full Prescribing Information"
-          : "ISI Full Prescribing Information"
-      }</a>
-    </div>
-    <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
-    <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+  ${
+    isIri
+      ? `
+  <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
+          iriArea.y - 15
+        }px; left: ${iriArea.x}px; z-index: 10001">
+    <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">IRI Full Prescribing Information</a>
+  </div>
+  `
+      : ""
+  }
+  <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
+  <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
         iriArea.y
       }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
         iriArea.width
       }px; overflow: hidden; z-index: 10000">
-      <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
-    </div>
-    <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
+    <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
   </div>
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var scrollingText = document.getElementById("scrollingText");
-    var scrollAmount = 0;
-    var scrollSpeed = 0.2;
-    var scrollInterval = setInterval(function() {
-      scrollAmount += scrollSpeed;
-      scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
-      if (scrollAmount >= scrollingText.scrollHeight) {
-        scrollAmount = 0;
-      }
-    }, 50);
+  <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var scrollingText = document.getElementById("scrollingText");
+  var scrollAmount = 0;
+  var scrollSpeed = 0.2;
+  var scrollInterval = setInterval(function() {
+    scrollAmount += scrollSpeed;
+    scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
+    if (scrollAmount >= scrollingText.scrollHeight) {
+      scrollAmount = 0;
+    }
+  }, 50);
 var scrollingTextContainer = document.getElementById("scrollingTextContainer");
 scrollingTextContainer.style.overflowY = "hidden";
 scrollingTextContainer.addEventListener("mouseenter", function() {
@@ -468,8 +470,8 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
 });
 });
 </script>
-  </body>
-  </html>`
+</body>
+</html>`
     );
     zip.file("bg.png", creative.src.split(",")[1], { base64: true });
     zip.generateAsync({ type: "blob" }).then(function (content) {
