@@ -59,27 +59,26 @@ function Ad() {
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
   const [isIri, setIsIri] = useState(true); // New state for IRI/ISI switch
-  const FullPrescribingInfoLink = ({ top, left }) =>
-    isIri ? (
-      <a
-        href={fullPrescribingInfoLink}
-        style={{
-          textDecoration: "underline",
-          cursor: "pointer",
-          color: "blue",
-          position: "absolute",
-          top: `${top}px`,
-          left: `${left}px`,
-          zIndex: 10001,
-          fontSize: fontSize,
-          fontFamily: "Helvetica, Arial, sans-serif",
-        }}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        IRI Full Prescribing Information
-      </a>
-    ) : null;
+  const FullPrescribingInfoLink = ({ top, left }) => (
+    <a
+      href={fullPrescribingInfoLink}
+      style={{
+        textDecoration: "underline",
+        cursor: "pointer",
+        color: "blue",
+        position: "absolute",
+        top: `${top}px`,
+        left: `${left}px`,
+        zIndex: 10001,
+        fontSize: fontSize,
+        fontFamily: "Helvetica, Arial, sans-serif",
+      }}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Full Prescribing Information
+    </a>
+  );
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -352,7 +351,6 @@ function Ad() {
 </div>
 `;
   const isiHTML = `<div style="white-space: normal;">
-<p><a href="https://slynd.com/wp-content/uploads/2024/04/prescribing-information.pdf" target="_blank" rel="noopener noreferrer"><strong>Full Prescribing Information</strong></a></p>
 <br>
 <p><strong>Indication</strong>: SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive potential to prevent pregnancy.</p>
 <br>
@@ -392,8 +390,8 @@ function Ad() {
           `Click on the ad to access the full <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Prescribing Information</a>, including the Patient Information.`
         )
       : isiHTML.replace(
-          "Click here to access the full <strong>Prescribing Information.</strong>",
-          `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Click here to access the full <strong>Prescribing Information.</strong></a>`
+          '<p><a href="https://slynd.com/wp-content/uploads/2024/04/prescribing-information.pdf" target="_blank" rel="noopener noreferrer"><strong>Full Prescribing Information</strong></a></p>',
+          ""
         );
 
     const zip = new JSZip();
@@ -419,17 +417,11 @@ function Ad() {
 <div style="position: absolute; width: ${adSize.width}px; height: ${
         adSize.height
       }px;">
-  ${
-    isIri
-      ? `
   <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
-          iriArea.y - 15
-        }px; left: ${iriArea.x}px; z-index: 10001">
-    <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;">IRI Full Prescribing Information</a>
+        iriArea.y - 15
+      }px; left: ${iriArea.x}px; z-index: 10001">
+    <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>
   </div>
-  `
-      : ""
-  }
   <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
   <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
         iriArea.y
@@ -512,7 +504,7 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
           <IriArea
             style={{
               position: "absolute",
-              top: iriArea.y, // Adjust the top position based on IRI or ISI
+              top: iriArea.y,
               left: iriArea.x,
               width: iriArea.width,
               height: iriArea.height,
@@ -524,7 +516,7 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
           >
             <div
               className="ql-editor"
-              style={{ padding: "5px" }}
+              style={{ padding: "5px", paddingTop: "20px" }} // Added padding-top to make room for the fixed link
               dangerouslySetInnerHTML={{ __html: isIri ? iriText : isiHTML }}
             />
           </IriArea>
@@ -564,7 +556,7 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
                       setFullPrescribingInfoLink(
                         e.target.checked
                           ? "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
-                          : "https://hcp.slynd.com/wp-content/uploads/2019/08/prescribing-information.pdf"
+                          : "https://slynd.com/wp-content/uploads/2024/04/prescribing-information.pdf"
                       );
                     }}
                     color="primary"
