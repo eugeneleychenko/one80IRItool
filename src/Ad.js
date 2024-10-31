@@ -25,22 +25,25 @@ const Sidebar = styled(Box)({
   width: "300px",
   marginRight: "20px",
 });
+
 const CreativeContainer = styled(Box)({
   flex: 1,
   display: "flex",
   justifyContent: "flex-start",
   alignItems: "center",
 });
+
 const AdContainer = styled(Box)({
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-between", // This will push the sidebar to the right
+  justifyContent: "space-between",
 });
+
 const GlobalStyle = createGlobalStyle`
-    p {
-        margin-block-start: 0em;
-        margin-block-end: 0em;
-    }
+  p {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+  }
 `;
 
 function Ad() {
@@ -50,15 +53,16 @@ function Ad() {
   const [clickTag, setClickTag] = useState("http://www.slynd.com");
   const [fullPrescribingInfoLink, setFullPrescribingInfoLink] = useState(
     "https://slynd.com/wp-content/uploads/2023/12/prescribing-information.pdf#page=15"
-  ); // Add this line
+  );
   const [isSelecting, setIsSelecting] = useState(false);
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
-  const [adSize, setAdSize] = useState({ width: 300, height: 250 }); // default ad size
-  // Add a new state to track the overlay visibility
+  const [adSize, setAdSize] = useState({ width: 300, height: 250 });
   const [showOverlay, setShowOverlay] = useState(false);
   const [fontSize, setFontSize] = useState("10px");
   const [textAlign, setTextAlign] = useState("left");
-  const [isIri, setIsIri] = useState(true); // New state for IRI/ISI switch
+  const [isIri, setIsIri] = useState(true);
+  const [isAppNexus, setIsAppNexus] = useState(false);
+
   const FullPrescribingInfoLink = ({ top, left }) => (
     <a
       href={fullPrescribingInfoLink}
@@ -79,6 +83,7 @@ function Ad() {
       Full Prescribing Information
     </a>
   );
+
   const IriArea = styled(Box)({
     position: "absolute",
     overflow: "hidden",
@@ -87,8 +92,8 @@ function Ad() {
     fontSize: fontSize,
     textAlign: textAlign,
   });
+
   Ad.formats = ["size", "bold", "list", "bullet", "indent", "link"];
-  // Include any additional modules for toolbar functionality
   Ad.modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: ["Helvetica Neue"] }],
@@ -107,34 +112,36 @@ function Ad() {
       matchVisual: false,
     },
   };
+
   const quillRef = React.useRef(null);
+
   useEffect(() => {
     console.log(iriText);
   }, [iriText]);
+
   useEffect(() => {
-    // This function will be called when the Escape key is pressed
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setIsSelecting(false);
         setShowOverlay(false);
       }
     };
-    // Add the event listener when the component mounts
     window.addEventListener("keydown", handleKeyDown);
-    // The cleanup function: remove the event listener when the component unmounts
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []); // The empty array means this effect runs once on mount and cleanup on unmount
+  }, []);
+
   const Overlay = styled(Box)(({ show }) => ({
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0,0,0,0)", // Transparent background
-    cursor: show ? "crosshair" : "default", // Change cursor based on showOverlay state
+    backgroundColor: "rgba(0,0,0,0)",
+    cursor: show ? "crosshair" : "default",
   }));
+
   const handleCreativeUpload = (event) => {
     const file = event.target.files[0];
     if (!file) {
@@ -154,15 +161,17 @@ function Ad() {
     };
     reader.readAsDataURL(file);
   };
+
   const handleMouseDown = (event) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left; // x position within the element.
-    const y = event.clientY - rect.top; // y position within the element.
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
     setStartPoint({ x, y });
     setIsSelecting(true);
     window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("mousemove", handleMouseMove); // Add this line
+    window.addEventListener("mousemove", handleMouseMove);
   };
+
   const handleMouseMove = (event) => {
     if (isSelecting) {
       const rect = event.currentTarget.getBoundingClientRect();
@@ -176,21 +185,25 @@ function Ad() {
       });
     }
   };
+
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
       setIsSelecting(false);
       setShowOverlay(false);
     }
   };
+
   const handleMouseUp = () => {
     setIsSelecting(false);
     window.removeEventListener("mouseup", handleMouseUp);
-    window.removeEventListener("mousemove", handleMouseMove); // Add this line
+    window.removeEventListener("mousemove", handleMouseMove);
   };
+
   const handleIriTextChange = (content, delta, source, editor) => {
     setIriText(editor.getHTML());
-    console.log("Fired handleiritextchange"); // This will get the HTML content from the editor
+    console.log("Fired handleiritextchange");
   };
+
   const handleIriTextUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -199,6 +212,7 @@ function Ad() {
     };
     reader.readAsText(file);
   };
+
   const staticHTML = `
 <div style="white-space: normal;">
 <p><strong>Slynd does not protect against HIV infection (AIDS) and other sexually transmitted diseases (STDs).</strong></p>    
@@ -259,7 +273,7 @@ function Ad() {
     <br>
     <p>
         <strong>Tell your healthcare providers about all the medicines you take</strong>including prescription and
-        over-the-counter medicines, vitamins and herbal supplements, such as St. John’s Wort. SLYND may affect the way
+        over-the-counter medicines, vitamins and herbal supplements, such as St. John's Wort. SLYND may affect the way
         other medicines work, and other medicines
         may affect how well SLYND works.</p>
     <br>
@@ -350,6 +364,7 @@ function Ad() {
     <p>Click on the ad to access the full <a href="${fullPrescribingInfoLink}" rel="noopener noreferrer" target="_blank">Prescribing Information</a>, including the Patient Information.</p>
 </div>
 `;
+
   const isiHTML = `<div style="white-space: normal;">
 <br>
 <p><strong>Indication</strong>: SLYND (drospirenone) tablets are a progestin, indicated for females of reproductive potential to prevent pregnancy.</p>
@@ -395,12 +410,17 @@ function Ad() {
         );
 
     const zip = new JSZip();
-    zip.file(
-      "index.html",
-      `<!DOCTYPE html>  
+
+    // Different HTML templates based on isAppNexus
+    const htmlContent = `<!DOCTYPE html>  
 <html>
 <head>
 <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
+${
+  isAppNexus
+    ? '<script type="text/javascript" src="https://acdn.adnxs.com/html5-lib/1.3.0/appnexus-html5-lib.min.js"></script>'
+    : ""
+}
 <script type="text/javascript">
   var clickTag = "${clickTag}";
 </script>
@@ -415,22 +435,26 @@ function Ad() {
 </head>
 <body style="margin: 0; padding: 0">
 <div style="position: absolute; width: ${adSize.width}px; height: ${
-        adSize.height
-      }px;">
+      adSize.height
+    }px;">
   <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
-        iriArea.y - 15
-      }px; left: ${iriArea.x}px; z-index: 10001">
+      iriArea.y - 15
+    }px; left: ${iriArea.x}px; z-index: 10001">
     <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>
   </div>
   <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
   <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
-        iriArea.y
-      }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
-        iriArea.width
-      }px; overflow: hidden; z-index: 10000">
+      iriArea.y
+    }px; left: ${iriArea.x}px; height: ${iriArea.height}px; width: ${
+      iriArea.width
+    }px; overflow: hidden; z-index: 10000">
     <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
   </div>
-  <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
+  ${
+    isAppNexus
+      ? '<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag(), \'_blank\');" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
+      : '<a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
+  }
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -444,32 +468,34 @@ document.addEventListener("DOMContentLoaded", function() {
       scrollAmount = 0;
     }
   }, 50);
-var scrollingTextContainer = document.getElementById("scrollingTextContainer");
-scrollingTextContainer.style.overflowY = "hidden";
-scrollingTextContainer.addEventListener("mouseenter", function() {
-  clearInterval(scrollInterval);
-  scrollingTextContainer.style.overflowY = "scroll";
-});
-scrollingTextContainer.addEventListener("mouseleave", function() {
+  var scrollingTextContainer = document.getElementById("scrollingTextContainer");
   scrollingTextContainer.style.overflowY = "hidden";
-  scrollInterval = setInterval(function() {
-    scrollAmount += scrollSpeed;
-    scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
-    if (scrollAmount >= scrollingText.scrollHeight) {
-      scrollAmount = 0;
-    }
-  }, 50);
-});
+  scrollingTextContainer.addEventListener("mouseenter", function() {
+    clearInterval(scrollInterval);
+    scrollingTextContainer.style.overflowY = "scroll";
+  });
+  scrollingTextContainer.addEventListener("mouseleave", function() {
+    scrollingTextContainer.style.overflowY = "hidden";
+    scrollInterval = setInterval(function() {
+      scrollAmount += scrollSpeed;
+      scrollingText.style.transform = "translateY(-" + scrollAmount + "px)";
+      if (scrollAmount >= scrollingText.scrollHeight) {
+        scrollAmount = 0;
+      }
+    }, 50);
+  });
 });
 </script>
 </body>
-</html>`
-    );
+</html>`;
+
+    zip.file("index.html", htmlContent);
     zip.file("bg.png", creative.src.split(",")[1], { base64: true });
     zip.generateAsync({ type: "blob" }).then(function (content) {
       saveAs(content, "ad.zip");
     });
   };
+
   return (
     <>
       <AdContainer>
@@ -563,6 +589,18 @@ scrollingTextContainer.addEventListener("mouseleave", function() {
                   />
                 }
                 label={isIri ? "IRI" : "ISI"}
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                value="appnexus"
+                control={
+                  <Switch
+                    checked={isAppNexus}
+                    onChange={(e) => setIsAppNexus(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="AppNexus"
                 labelPlacement="start"
               />
             </FormGroup>
