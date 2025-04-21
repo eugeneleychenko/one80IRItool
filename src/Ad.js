@@ -465,7 +465,7 @@ TWIRLA is a birth control patch for women with Body Mass Index (BMI) less than 3
 <p><strong>Important Safety Information</strong></p>
 <br>
 <p><strong>Contraindications</strong>: SLYND is contraindicated in females with renal impairment, adrenal insuﬃciency, a presence or history of cervical cancer or progestin sensitive cancers, liver tumors (benign or malignant) or hepatic impairment, and undiagnosed abnormal uterine bleeding.</p>
-<br>
+<br><br>
 <p><strong>Warnings and Precautions</strong></p>
 
 <p><strong>Hyperkalemia</strong>: SLYND has anti-mineralocorticoid activity, including the potential for hyperkalemia in high-risk females. Check serum potassium levels prior to starting treatment and during the ﬁrst treatment cycle in females receiving daily, long-term treatment for chronic conditions or diseases with medications that may increase serum potassium concentration. Consider monitoring serum potassium concentration in females at increased risk for hyperkalemia i.e., those females who take a strong CYP3A4 inhibitor long-term and concomitantly with SLYND. Monitor females taking SLYND who later develop conditions and/or begin medication that put them at an increased risk for hyperkalemia.</p>
@@ -494,11 +494,19 @@ TWIRLA is a birth control patch for women with Body Mass Index (BMI) less than 3
 <h2>INDICATION AND USAGE</h2>
 <p>TWIRLA is indicated as a method of contraception for use in women of reproductive potential with a BMI &lt;30 kg/m<sup>2</sup> for whom a combined hormonal contraceptive is appropriate.</p>
 
-<h3>Limitations of Use:</h3>
+<u>Limitations of Use:</u>
 <p>Consider the reduced effectiveness of TWIRLA in women with a BMI ≥25 to &lt;30 kg/m<sup>2</sup> before prescribing TWIRLA. TWIRLA is contraindicated in women with a BMI ≥30 kg/m<sup>2</sup>.</p>
-
+<br>
 <h2>IMPORTANT SAFETY INFORMATION</h2>
-
+<div style="border: 1px solid black; padding: 10px; margin: 10px 0;">
+    <h3><strong>WARNING: CIGARETTE SMOKING AND SERIOUS CARDIOVASCULAR EVENTS and CONTRAINDICATED IN WOMEN WITH A BMI ≥30 KG/M<sup>2</sup></strong></h3>
+    
+    <p><u><strong>Cigarette Smoking and Serious Cardiovascular Events</strong></u><br>
+    <strong>Cigarette smoking increases the risk of serious cardiovascular events from combined hormonal contraceptive (CHC) use. This risk increases with age, particularly in women over 35 years of age, and with the number of cigarettes smoked. For this reason, CHCs, including TWIRLA, are contraindicated in women who are over 35 years of age and smoke.</strong></p>
+    
+    <p><u><strong>Contraindicated in Women with a BMI ≥30 kg/m<sup>2</sup></strong></u><br>
+    <strong>TWIRLA is contraindicated in women with a BMI ≥30 kg/m<sup>2</sup>. Compared to women with a lower BMI, women with a BMI ≥30 kg/m<sup>2</sup> had reduced effectiveness and may have a higher risk for venous thromboembolic events (VTEs).</strong></p>
+</div>
 <h3>CONTRAINDICATIONS</h3>
 <p>TWIRLA is contraindicated and should not be used in women who have or develop the following conditions:</p>
 <ul>
@@ -514,15 +522,7 @@ TWIRLA is a birth control patch for women with Body Mass Index (BMI) less than 3
     <li>Use of Hepatitis C drug combinations containing ombitasvir/paritaprevir/ritonavir, with or without dasabuvir</li>
 </ul>
 
-<div style="border: 1px solid black; padding: 10px; margin: 10px 0;">
-    <h3>WARNING: CIGARETTE SMOKING AND SERIOUS CARDIOVASCULAR EVENTS and CONTRAINDICATED IN WOMEN WITH A BMI ≥30 KG/M<sup>2</sup></h3>
-    
-    <p><strong>Cigarette Smoking and Serious Cardiovascular Events</strong><br>
-    Cigarette smoking increases the risk of serious cardiovascular events from combined hormonal contraceptive (CHC) use. This risk increases with age, particularly in women over 35 years of age, and with the number of cigarettes smoked. For this reason, CHCs, including TWIRLA, are contraindicated in women who are over 35 years of age and smoke.</p>
-    
-    <p><strong>Contraindicated in Women with a BMI ≥30 kg/m<sup>2</sup></strong><br>
-    TWIRLA is contraindicated in women with a BMI ≥30 kg/m<sup>2</sup>. Compared to women with a lower BMI, women with a BMI ≥30 kg/m<sup>2</sup> had reduced effectiveness and may have a higher risk for venous thromboembolic events (VTEs).</p>
-</div>
+
 
 <h2>WARNINGS AND PRECAUTIONS</h2>
 <p><strong>Thromboembolic Disorders and Other Vascular Conditions:</strong> Women are at increased risk for a venous thromboembolic event (VTE) when using TWIRLA.</p>
@@ -534,55 +534,55 @@ TWIRLA is a birth control patch for women with Body Mass Index (BMI) less than 3
     <li>Before starting TWIRLA, evaluate any past medical history or family history of thromboembolism or thromboembolic disorders and consider whether history suggests inherited or acquired hypercoagulopathy.</li>
 </ul>
 
-<p><strong>Arterial Events:</strong> CHCs increase the risk of cardiovascular events and cerebrovascular events, such as myocardial infarction and stroke, particularly among older women (>35 years of age), smokers, and women with hypertension, dyslipidemia, diabetes, or obesity.</p>
+<p><u>Arterial Events:</u> CHCs increase the risk of cardiovascular events and cerebrovascular events, such as myocardial infarction and stroke, particularly among older women (>35 years of age), smokers, and women with hypertension, dyslipidemia, diabetes, or obesity.</p>
 
-<p><strong>Venous Events:</strong> The use of CHCs increase the risk of VTEs. Risk factors include, smoking, obesity, and family history of VTE, in addition to other factors that contraindicate use of CHCs.</p>
-
-<p><strong>Liver Disease:</strong></p>
+<p><u>Venous Events:</u> The use of CHCs increase the risk of VTEs. Risk factors include, smoking, obesity, and family history of VTE, in addition to other factors that contraindicate use of CHCs.</p>
+<br>
+<p><strong>Liver Disease:</strong></p><br>
 <ul>
     <li>Elevated Liver Enzymes: Discontinue TWIRLA if jaundice develops. Acute liver test abnormalities may necessitate the discontinuation of CHC use until the liver tests return to normal and CHC causation has been excluded.</li>
     <li>Liver Tumors: CHCs increase the risk of hepatic adenomas. Rupture of hepatic adenomas may cause death from abdominal hemorrhage. Studies have shown an increased risk of developing hepatocellular carcinoma in long-term (> 8 years) CHC users.</li>
 </ul>
-
+<br>
 <p><strong>Risk of Liver Enzyme Elevations with Concomitant Hepatitis C Treatment:</strong> Discontinue TWIRLA prior to starting therapy with the hepatitis C combination drug regimen ombitasvir/paritaprevir/ritonavir, with or without dasabuvir. TWIRLA can be restarted approximately 2 weeks following completion of treatment with that combination drug regimen.</p>
-
+<br>
 <p><strong>Hypertension:</strong> For all women, monitor blood pressure at routine visits and stop TWIRLA if blood pressure rises significantly. An increase in blood pressure has been reported in women using CHCs, and this increase is more likely in older women with extended duration of use.</p>
-
+<br>
 <p><strong>Gallbladder Disease:</strong> Studies suggest CHCs increase the risk of developing gallbladder disease and may also worsen existing gallbladder disease.</p>
-
-<p><strong>Adverse Carbohydrate and Lipid Metabolic Effects:</strong></p>
+<br>
+<p><strong>Adverse Carbohydrate and Lipid Metabolic Effects:</strong></p><br>
 <ul>
     <li>Hyperglycemia: TWIRLA may decrease glucose tolerance. Carefully monitor prediabetic and diabetic women.</li>
     <li>Dyslipidemia: Consider alternative contraception for women with uncontrolled dyslipidemia. TWIRLA may cause adverse lipid changes. Women with hypertriglyceridemia, or a family history thereof, may have an increase in serum triglyceride concentrations when using TWIRLA, which may increase the risk of pancreatitis.</li>
 </ul>
-
+<br>
 <p><strong>Headache:</strong> If a woman using TWIRLA develops new headaches that are recurrent, persistent, or severe, evaluate the cause and discontinue TWIRLA as indicated. Consider discontinuation of TWIRLA if there is any increased frequency or severity of migraines during CHC use (which may be prodromal of a cerebrovascular event).</p>
-
-<p><strong>Bleeding Irregularities and Amenorrhea:</strong></p>
+<br>
+<p><strong>Bleeding Irregularities and Amenorrhea:</strong></p><br>
 <ul>
     <li>Unscheduled and Scheduled Bleeding and Spotting: Women using TWIRLA may experience unscheduled bleeding and spotting, especially during the first 3 months of use. If bleeding persists or occurs after previously regular cycles on TWIRLA, evaluate for causes such as pregnancy or malignancy.</li>
     <li>Amenorrhea and Oligomenorrhea: Women using TWIRLA may experience absence of scheduled bleeding, even if they are not pregnant. If scheduled bleeding does not occur, consider the possibility of pregnancy.</li>
 </ul>
-
+<br>
 <p>Other Warnings and Precautions include age-related considerations, depression, breast cancer, cervical cancer, effect on binding globulins, hereditary angioedema, and chloasma.</p>
-
+<br>
 <h2>ADVERSE REACTIONS</h2>
 <p>The following serious adverse reactions occurred in &lt;1% of women who received TWIRLA: cholelithiasis, cholecystitis, major depression, suicidal ideation, appendicitis, ectopic pregnancy, pneumonia, and gastroenteritis. A total of 4 VTEs in TWIRLA-treated patients were identified in the phase 3 clinical trial. The most common adverse reactions (≥2%) in clinical trials for TWIRLA are application site disorders, nausea, headache, dysmenorrhea, and increased weight.</p>
 
 <p><strong>Patients should be counseled that TWIRLA does not protect against HIV infection (AIDS) and other sexually transmitted infections (STIs).</strong></p>
-
+<br>
 <h2>DRUG INTERACTIONS</h2>
 <p>Drugs or herbal products that induce certain enzyme inducers, including CYP3A4, may decrease the effectiveness of TWIRLA or increase breakthrough bleeding. Counsel patients to use a back-up or alternative method of contraception when enzyme inducers are used with TWIRLA.</p>
-
+<br>
 <h2>USE IN SPECIFIC POPULATIONS</h2>
 <ul>
     <li>CHCs can reduce milk production in breastfeeding women. Advise the nursing woman to use another method of contraception while breastfeeding.</li>
     <li>Twirla is not indicated in females before menarche or postmenopausal women.</li>
 </ul>
-
-<p>To report SUSPECTED ADVERSE REACTIONS, call Exeltis at 1-877-324-9349 or FDA at <a href="http://www.fda.gov/medwatch" target="_blank" rel="noopener noreferrer">www.fda.gov/medwatch</a> or 1-800-FDA-1088.</p>
-
-<p>Please see [PLACEMENT] for full <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Prescribing Information</a>, including BOXED WARNING, for additional Important Safety Information.</p>
+<br>
+<p>To <strong>report SUSPECTED ADVERSE REACTIONS</strong>, call Exeltis at 1-877-324-9349 or FDA at <a href="http://www.fda.gov/medwatch" target="_blank" rel="noopener noreferrer">www.fda.gov/medwatch</a> or 1-800-FDA-1088.</p>
+<br>
+<strong><p>Please see [PLACEMENT] for full <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer">Prescribing Information</a>, including BOXED WARNING, for additional Important Safety Information.</p></strong>
 </div>`;
 
   const handleExport = () => {
