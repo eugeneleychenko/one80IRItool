@@ -63,6 +63,7 @@ function Ad() {
   const [isIri, setIsIri] = useState(true);
   const [isAppNexus, setIsAppNexus] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState("slynd");
+  const [nightMode, setNightMode] = useState(false);
 
   const FullPrescribingInfoLink = ({ top, left }) => (
     <a
@@ -442,7 +443,7 @@ function Ad() {
 <ul>
     <li>CHCs can reduce milk production in breastfeeding women. Advise the nursing woman to use another method of contraception while breastfeeding.</li>
     <li>Twirla is not indicated in females before menarche or postmenopausal women.</li>
-</ul>
+      </ul>
 
 <p>To report SUSPECTED ADVERSE REACTIONS, call Exeltis at 1-877-324-9349 or FDA at <a href="http://www.fda.gov/medwatch" target="_blank" rel="noopener noreferrer">www.fda.gov/medwatch</a> or 1-800-FDA-1088.</p>
 
@@ -696,7 +697,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   return (
     <>
-      <AdContainer>
+      <AdContainer style={{ backgroundColor: nightMode ? '#121212' : '#fff', color: nightMode ? '#fff' : '#000' }}>
         <CreativeContainer
           style={{ flexDirection: "column", alignItems: "flex-start" }}
         >
@@ -736,6 +737,8 @@ document.addEventListener("DOMContentLoaded", function() {
               overflow: "auto",
               whiteSpace: "pre-wrap",
               fontFamily: "Helvetica, Arial, sans-serif",
+              color: '#000',
+              backgroundColor: '#fff'
             }}
           >
             <div
@@ -745,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function() {
             />
           </IriArea>
         </CreativeContainer>
-        <Sidebar>
+        <Sidebar style={{ backgroundColor: nightMode ? '#212121' : '#fff', color: nightMode ? '#fff' : '#000' }}>
           <TextField
             select
             label="Brand"
@@ -755,6 +758,25 @@ document.addEventListener("DOMContentLoaded", function() {
             variant="outlined"
             fullWidth
             margin="normal"
+            InputLabelProps={{
+              style: { color: nightMode ? '#fff' : 'rgba(0, 0, 0, 0.54)' },
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: nightMode ? '#fff' : '#000',
+              },
+              '& .MuiFormHelperText-root': {
+                color: nightMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+              },
+            }}
           >
             <MenuItem value="slynd">Slynd</MenuItem>
             <MenuItem value="twirla">Twirla</MenuItem>
@@ -823,6 +845,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 label="AppNexus"
                 labelPlacement="start"
               />
+              <FormControlLabel
+                value="nightMode"
+                control={
+                  <Switch
+                    checked={nightMode}
+                    onChange={(e) => setNightMode(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="Night Mode"
+                labelPlacement="start"
+              />
             </FormGroup>
           </FormControl>
           <TextField
@@ -832,6 +866,22 @@ document.addEventListener("DOMContentLoaded", function() {
             variant="outlined"
             fullWidth
             margin="normal"
+            InputLabelProps={{
+              style: { color: nightMode ? '#fff' : 'rgba(0, 0, 0, 0.54)' },
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: nightMode ? '#fff' : '#000',
+              },
+            }}
           />
           <TextField
             label={
@@ -844,14 +894,46 @@ document.addEventListener("DOMContentLoaded", function() {
             variant="outlined"
             fullWidth
             margin="normal"
+            InputLabelProps={{
+              style: { color: nightMode ? '#fff' : 'rgba(0, 0, 0, 0.54)' },
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: nightMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                },
+              },
+              '& .MuiInputBase-input': {
+                color: nightMode ? '#fff' : '#000',
+              },
+            }}
           />
-          <Button variant="contained" component="label" sx={{ margin: 1 }}>
+          <Button 
+            variant="contained" 
+            component="label" 
+            sx={{ 
+              margin: 1,
+              backgroundColor: nightMode ? '#333' : '',
+              '&:hover': {
+                backgroundColor: nightMode ? '#444' : '',
+              }
+            }}
+          >
             Upload Creative
             <input type="file" hidden onChange={handleCreativeUpload} />
           </Button>
           <Button
             variant="contained"
-            sx={{ margin: 1 }}
+            sx={{ 
+              margin: 1,
+              backgroundColor: nightMode ? '#333' : '',
+              '&:hover': {
+                backgroundColor: nightMode ? '#444' : '',
+              }
+            }}
             onClick={() => {
               setShowOverlay(!showOverlay); // Toggle the overlay visibility
               if (isSelecting) {
@@ -863,9 +945,12 @@ document.addEventListener("DOMContentLoaded", function() {
               ? "Hit Escape When Done"
               : `Select ${isIri ? "IRI" : "ISI"} Area`}
           </Button>
-          <Accordion>
+          <Accordion sx={{
+            backgroundColor: nightMode ? '#333' : '',
+            color: nightMode ? '#fff' : '',
+          }}>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={<ExpandMoreIcon sx={{ color: nightMode ? '#fff' : '' }} />}
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
@@ -888,7 +973,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 theme="snow"
                 modules={Ad.modules}
                 formats={Ad.formats}
-                style={{ height: "250px", marginBottom: "30px" }}
+                style={{ 
+                  height: "250px", 
+                  marginBottom: "30px",
+                  backgroundColor: '#fff',
+                  color: '#000',
+                }}
               />
               <TextField
                 select
@@ -899,6 +989,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                InputLabelProps={{
+                  style: { color: nightMode ? '#fff' : 'rgba(0, 0, 0, 0.54)' },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: nightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: nightMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                    },
+                  },
+                  '& .MuiInputBase-input': {
+                    color: nightMode ? '#fff' : '#000',
+                  },
+                  '& .MuiFormHelperText-root': {
+                    color: nightMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                  },
+                }}
               >
                 <MenuItem value="6px">6px</MenuItem>
                 <MenuItem value="7px">7px</MenuItem>
@@ -918,6 +1027,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                InputLabelProps={{
+                  style: { color: nightMode ? '#fff' : 'rgba(0, 0, 0, 0.54)' },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: nightMode ? 'rgba(255, 255, 255, 0.23)' : 'rgba(0, 0, 0, 0.23)',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: nightMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                    },
+                  },
+                  '& .MuiInputBase-input': {
+                    color: nightMode ? '#fff' : '#000',
+                  },
+                  '& .MuiFormHelperText-root': {
+                    color: nightMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                  },
+                }}
               >
                 <MenuItem value="left">Left</MenuItem>
                 <MenuItem value="center">Center</MenuItem>
@@ -926,10 +1054,26 @@ document.addEventListener("DOMContentLoaded", function() {
               </TextField>
             </AccordionDetails>
           </Accordion>
-          <Button variant="contained" onClick={handleExport} sx={{ margin: 1 }}>
+          <Button 
+            variant="contained" 
+            onClick={handleExport} 
+            sx={{ 
+              margin: 1,
+              backgroundColor: nightMode ? '#333' : '',
+              '&:hover': {
+                backgroundColor: nightMode ? '#444' : '',
+              }
+            }}
+          >
             Export
           </Button>
-          <Box sx={{ marginTop: 2, padding: 1, border: "1px solid grey" }}>
+          <Box sx={{ 
+            marginTop: 2, 
+            padding: 1, 
+            border: `1px solid ${nightMode ? '#555' : 'grey'}`,
+            backgroundColor: nightMode ? '#333' : '',
+            color: nightMode ? '#fff' : '', 
+          }}>
             <Typography variant="h6">
               {isIri ? "IRI" : "ISI"} Area Details:
             </Typography>
