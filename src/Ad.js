@@ -572,7 +572,7 @@ function Ad() {
 
 <p>To report SUSPECTED ADVERSE REACTIONS, call Exeltis at 1-877-324-9349 or FDA at <a href="http://www.fda.gov/medwatch" target="_blank" rel="noopener noreferrer">www.fda.gov/medwatch</a> or 1-800-FDA-1088.</p><br>
 
-<b><p>Click <a href="twirla.com/pi">here</a> or visit <a href="twirla.com/pi">twirla.com/pi</a> for full Prescribing Information, including BOXED WARNING, for additional Important Safety Information.</p><b>
+<b><p>Click <a href="http://twirla.com/pi">here</a> or visit <a href=http://twirla.com/pi">twirla.com/pi</a> for full Prescribing Information, including BOXED WARNING, for additional Important Safety Information.</p><b>
 <br>
 <h2>INDICATION</h2>
 <b><p>TWIRLA is indicated as a method of contraception for use in women of reproductive potential with a BMI &lt;30 kg/m<sup>2</sup> for whom a combined hormonal contraceptive is appropriate.</p></b>
