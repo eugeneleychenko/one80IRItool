@@ -607,6 +607,13 @@ ${
 }
 <script type="text/javascript">
   var clickTag = "${clickTag}";
+  ${isAppNexus ? 
+    `// AppNexus click tag definitions
+    var clickTags = {
+      clickTAG: "${clickTag}",
+      clickTAG_PI: "${fullPrescribingInfoLink}"
+    };` 
+    : ""}
 </script>
 <style>
   p, ul {
@@ -624,7 +631,10 @@ ${
   <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
       iriArea.y - 15
     }px; left: ${iriArea.x}px; z-index: 10001">
-    <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>
+    ${isAppNexus 
+      ? `<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag('clickTAG_PI'), '_blank');" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>`
+      : `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>`
+    }
   </div>
   <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
   <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
@@ -636,12 +646,26 @@ ${
   </div>
   ${
     isAppNexus
-      ? '<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag(), \'_blank\');" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
+      ? '<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag(\'clickTAG\'), \'_blank\');" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
       : '<a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
   }
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+  ${isAppNexus ? 
+    `// Initialize AppNexus click tags
+    if (typeof APPNEXUS !== 'undefined') {
+      APPNEXUS.setExpandProperties({
+        width: ${adSize.width},
+        height: ${adSize.height}
+      });
+      APPNEXUS.ready();
+      // Register all click tags
+      for (var key in clickTags) {
+        APPNEXUS.registerClickTag(key, clickTags[key]);
+      }
+    }` 
+    : ""}
   var scrollingText = document.getElementById("scrollingText");
   var scrollAmount = 0;
   var scrollSpeed = 0.2;
