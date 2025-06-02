@@ -595,11 +595,26 @@ function Ad() {
 
     const zip = new JSZip();
 
-    // Simplified HTML template with single script tag (DSP-approved structure)
+    // Different HTML templates based on isAppNexus
     const htmlContent = `<!DOCTYPE html>  
 <html>
 <head>
 <meta name="ad.size" content="width=${adSize.width},height=${adSize.height}">
+${
+  isAppNexus
+    ? '<script type="text/javascript" src="https://acdn.adnxs.com/html5-lib/1.3.0/appnexus-html5-lib.min.js"></script>'
+    : ""
+}
+<script type="text/javascript">
+  var clickTag = "${clickTag}";
+  ${isAppNexus ? 
+    `// AppNexus click tag definitions
+    var clickTags = {
+      clickTAG: "${clickTag}",
+      clickTAG_PI: "${fullPrescribingInfoLink}"
+    };` 
+    : ""}
+</script>
 <style>
   p, ul {
     margin: 0;
@@ -616,7 +631,10 @@ function Ad() {
   <div style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
       iriArea.y - 15
     }px; left: ${iriArea.x}px; z-index: 10001">
-    <a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>
+    ${isAppNexus 
+      ? `<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag('clickTAG_PI'), '_blank');" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>`
+      : `<a href="${fullPrescribingInfoLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: blue; cursor: pointer;"><strong>Full Prescribing Information</strong></a>`
+    }
   </div>
   <img src="bg.png" alt="Creative" style="position: absolute; width: 100%; height: 100%;">
   <div id="scrollingTextContainer" style="font-family: Helvetica, sans-serif; font-size: ${fontSize}; position: absolute; top: ${
@@ -626,20 +644,28 @@ function Ad() {
     }px; overflow: hidden; z-index: 10000">
     <div id="scrollingText" style="position: absolute; white-space: pre-wrap;">${updatedText}</div>
   </div>
-  <a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>
+  ${
+    isAppNexus
+      ? '<a href="javascript:void(0)" onClick="window.open(APPNEXUS.getClickTag(\'clickTAG\'), \'_blank\');" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
+      : '<a href="javascript:void(window.open(clickTag))" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 10;"></a>'
+  }
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  // Variable declarations (moved from head to consolidated script)
-  var clickTag = "${clickTag}";
   ${isAppNexus ? 
-    `// AppNexus mode - set click tag for AppNexus tracking
-    var clickTAG_PI = "${fullPrescribingInfoLink}";
-    // Note: AppNexus functionality simplified without external library` 
-    : `// Standard mode - regular click tracking`
-  }
-  
-  // Scrolling text animation logic
+    `// Initialize AppNexus click tags
+    if (typeof APPNEXUS !== 'undefined') {
+      APPNEXUS.setExpandProperties({
+        width: ${adSize.width},
+        height: ${adSize.height}
+      });
+      APPNEXUS.ready();
+      // Register all click tags
+      for (var key in clickTags) {
+        APPNEXUS.registerClickTag(key, clickTags[key]);
+      }
+    }` 
+    : ""}
   var scrollingText = document.getElementById("scrollingText");
   var scrollAmount = 0;
   var scrollSpeed = 0.2;
@@ -650,15 +676,12 @@ document.addEventListener("DOMContentLoaded", function() {
       scrollAmount = 0;
     }
   }, 50);
-  
   var scrollingTextContainer = document.getElementById("scrollingTextContainer");
   scrollingTextContainer.style.overflowY = "hidden";
-  
   scrollingTextContainer.addEventListener("mouseenter", function() {
     clearInterval(scrollInterval);
     scrollingTextContainer.style.overflowY = "scroll";
   });
-  
   scrollingTextContainer.addEventListener("mouseleave", function() {
     scrollingTextContainer.style.overflowY = "hidden";
     scrollInterval = setInterval(function() {
