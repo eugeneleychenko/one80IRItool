@@ -631,7 +631,7 @@ function Ad() {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   // Variable declarations (moved from head to consolidated script)
-  var clickTag = "${clickTag}";
+  window.clickTag = "${clickTag}";
   ${isAppNexus ? 
     `// AppNexus mode - set click tag for AppNexus tracking
     var clickTAG_PI = "${fullPrescribingInfoLink}";
